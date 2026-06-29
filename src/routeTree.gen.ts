@@ -12,6 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-manager.index'
+import { Route as AffiliateManagerSalesRouteImport } from './routes/affiliate-manager.sales'
+import { Route as AffiliateManagerReferralNetworkRouteImport } from './routes/affiliate-manager.referral-network'
+import { Route as AffiliateManagerReferralCodesRouteImport } from './routes/affiliate-manager.referral-codes'
+import { Route as AffiliateManagerProductsRouteImport } from './routes/affiliate-manager.products'
+import { Route as AffiliateManagerMarketplaceRouteImport } from './routes/affiliate-manager.marketplace'
+import { Route as AffiliateManagerLeadsRouteImport } from './routes/affiliate-manager.leads'
+import { Route as AffiliateManagerCustomersRouteImport } from './routes/affiliate-manager.customers'
+import { Route as AffiliateManagerCouponsRouteImport } from './routes/affiliate-manager.coupons'
+import { Route as AffiliateManagerCampaignsRouteImport } from './routes/affiliate-manager.campaigns'
+import { Route as AffiliateManagerApplicationsRouteImport } from './routes/affiliate-manager.applications'
+import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affiliate-manager.affiliates'
+import { Route as AffiliateManagerAffiliateLinksRouteImport } from './routes/affiliate-manager.affiliate-links'
 
 const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
   id: '/affiliate-manager',
@@ -28,28 +40,178 @@ const AffiliateManagerIndexRoute = AffiliateManagerIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
+const AffiliateManagerSalesRoute = AffiliateManagerSalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerReferralNetworkRoute =
+  AffiliateManagerReferralNetworkRouteImport.update({
+    id: '/referral-network',
+    path: '/referral-network',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerReferralCodesRoute =
+  AffiliateManagerReferralCodesRouteImport.update({
+    id: '/referral-codes',
+    path: '/referral-codes',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerProductsRoute =
+  AffiliateManagerProductsRouteImport.update({
+    id: '/products',
+    path: '/products',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerMarketplaceRoute =
+  AffiliateManagerMarketplaceRouteImport.update({
+    id: '/marketplace',
+    path: '/marketplace',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerLeadsRoute = AffiliateManagerLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerCustomersRoute =
+  AffiliateManagerCustomersRouteImport.update({
+    id: '/customers',
+    path: '/customers',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerCouponsRoute = AffiliateManagerCouponsRouteImport.update({
+  id: '/coupons',
+  path: '/coupons',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerCampaignsRoute =
+  AffiliateManagerCampaignsRouteImport.update({
+    id: '/campaigns',
+    path: '/campaigns',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerApplicationsRoute =
+  AffiliateManagerApplicationsRouteImport.update({
+    id: '/applications',
+    path: '/applications',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerAffiliatesRoute =
+  AffiliateManagerAffiliatesRouteImport.update({
+    id: '/affiliates',
+    path: '/affiliates',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerAffiliateLinksRoute =
+  AffiliateManagerAffiliateLinksRouteImport.update({
+    id: '/affiliate-links',
+    path: '/affiliate-links',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
+  '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
+  '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
+  '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
+  '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
   '/affiliate-manager': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
+  '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
+  '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/affiliate-manager' | '/affiliate-manager/'
+  fullPaths:
+    | '/'
+    | '/affiliate-manager'
+    | '/affiliate-manager/affiliate-links'
+    | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/applications'
+    | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/coupons'
+    | '/affiliate-manager/customers'
+    | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/products'
+    | '/affiliate-manager/referral-codes'
+    | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/sales'
+    | '/affiliate-manager/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/affiliate-manager'
-  id: '__root__' | '/' | '/affiliate-manager' | '/affiliate-manager/'
+  to:
+    | '/'
+    | '/affiliate-manager/affiliate-links'
+    | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/applications'
+    | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/coupons'
+    | '/affiliate-manager/customers'
+    | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/products'
+    | '/affiliate-manager/referral-codes'
+    | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/sales'
+    | '/affiliate-manager'
+  id:
+    | '__root__'
+    | '/'
+    | '/affiliate-manager'
+    | '/affiliate-manager/affiliate-links'
+    | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/applications'
+    | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/coupons'
+    | '/affiliate-manager/customers'
+    | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/products'
+    | '/affiliate-manager/referral-codes'
+    | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/sales'
+    | '/affiliate-manager/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +242,122 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerIndexRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/sales': {
+      id: '/affiliate-manager/sales'
+      path: '/sales'
+      fullPath: '/affiliate-manager/sales'
+      preLoaderRoute: typeof AffiliateManagerSalesRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/referral-network': {
+      id: '/affiliate-manager/referral-network'
+      path: '/referral-network'
+      fullPath: '/affiliate-manager/referral-network'
+      preLoaderRoute: typeof AffiliateManagerReferralNetworkRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/referral-codes': {
+      id: '/affiliate-manager/referral-codes'
+      path: '/referral-codes'
+      fullPath: '/affiliate-manager/referral-codes'
+      preLoaderRoute: typeof AffiliateManagerReferralCodesRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/products': {
+      id: '/affiliate-manager/products'
+      path: '/products'
+      fullPath: '/affiliate-manager/products'
+      preLoaderRoute: typeof AffiliateManagerProductsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/marketplace': {
+      id: '/affiliate-manager/marketplace'
+      path: '/marketplace'
+      fullPath: '/affiliate-manager/marketplace'
+      preLoaderRoute: typeof AffiliateManagerMarketplaceRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/leads': {
+      id: '/affiliate-manager/leads'
+      path: '/leads'
+      fullPath: '/affiliate-manager/leads'
+      preLoaderRoute: typeof AffiliateManagerLeadsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/customers': {
+      id: '/affiliate-manager/customers'
+      path: '/customers'
+      fullPath: '/affiliate-manager/customers'
+      preLoaderRoute: typeof AffiliateManagerCustomersRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/coupons': {
+      id: '/affiliate-manager/coupons'
+      path: '/coupons'
+      fullPath: '/affiliate-manager/coupons'
+      preLoaderRoute: typeof AffiliateManagerCouponsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/campaigns': {
+      id: '/affiliate-manager/campaigns'
+      path: '/campaigns'
+      fullPath: '/affiliate-manager/campaigns'
+      preLoaderRoute: typeof AffiliateManagerCampaignsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/applications': {
+      id: '/affiliate-manager/applications'
+      path: '/applications'
+      fullPath: '/affiliate-manager/applications'
+      preLoaderRoute: typeof AffiliateManagerApplicationsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/affiliates': {
+      id: '/affiliate-manager/affiliates'
+      path: '/affiliates'
+      fullPath: '/affiliate-manager/affiliates'
+      preLoaderRoute: typeof AffiliateManagerAffiliatesRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/affiliate-links': {
+      id: '/affiliate-manager/affiliate-links'
+      path: '/affiliate-links'
+      fullPath: '/affiliate-manager/affiliate-links'
+      preLoaderRoute: typeof AffiliateManagerAffiliateLinksRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
   }
 }
 
 interface AffiliateManagerRouteChildren {
+  AffiliateManagerAffiliateLinksRoute: typeof AffiliateManagerAffiliateLinksRoute
+  AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRoute
+  AffiliateManagerApplicationsRoute: typeof AffiliateManagerApplicationsRoute
+  AffiliateManagerCampaignsRoute: typeof AffiliateManagerCampaignsRoute
+  AffiliateManagerCouponsRoute: typeof AffiliateManagerCouponsRoute
+  AffiliateManagerCustomersRoute: typeof AffiliateManagerCustomersRoute
+  AffiliateManagerLeadsRoute: typeof AffiliateManagerLeadsRoute
+  AffiliateManagerMarketplaceRoute: typeof AffiliateManagerMarketplaceRoute
+  AffiliateManagerProductsRoute: typeof AffiliateManagerProductsRoute
+  AffiliateManagerReferralCodesRoute: typeof AffiliateManagerReferralCodesRoute
+  AffiliateManagerReferralNetworkRoute: typeof AffiliateManagerReferralNetworkRoute
+  AffiliateManagerSalesRoute: typeof AffiliateManagerSalesRoute
   AffiliateManagerIndexRoute: typeof AffiliateManagerIndexRoute
 }
 
 const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
+  AffiliateManagerAffiliateLinksRoute: AffiliateManagerAffiliateLinksRoute,
+  AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRoute,
+  AffiliateManagerApplicationsRoute: AffiliateManagerApplicationsRoute,
+  AffiliateManagerCampaignsRoute: AffiliateManagerCampaignsRoute,
+  AffiliateManagerCouponsRoute: AffiliateManagerCouponsRoute,
+  AffiliateManagerCustomersRoute: AffiliateManagerCustomersRoute,
+  AffiliateManagerLeadsRoute: AffiliateManagerLeadsRoute,
+  AffiliateManagerMarketplaceRoute: AffiliateManagerMarketplaceRoute,
+  AffiliateManagerProductsRoute: AffiliateManagerProductsRoute,
+  AffiliateManagerReferralCodesRoute: AffiliateManagerReferralCodesRoute,
+  AffiliateManagerReferralNetworkRoute: AffiliateManagerReferralNetworkRoute,
+  AffiliateManagerSalesRoute: AffiliateManagerSalesRoute,
   AffiliateManagerIndexRoute: AffiliateManagerIndexRoute,
 }
 
