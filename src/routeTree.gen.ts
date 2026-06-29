@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
 
+const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
+  id: '/affiliate-manager',
+  path: '/affiliate-manager',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +25,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/affiliate-manager': typeof AffiliateManagerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/affiliate-manager': typeof AffiliateManagerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/affiliate-manager': typeof AffiliateManagerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/affiliate-manager'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/affiliate-manager'
+  id: '__root__' | '/' | '/affiliate-manager'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AffiliateManagerRoute: typeof AffiliateManagerRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/affiliate-manager': {
+      id: '/affiliate-manager'
+      path: '/affiliate-manager'
+      fullPath: '/affiliate-manager'
+      preLoaderRoute: typeof AffiliateManagerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AffiliateManagerRoute: AffiliateManagerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
