@@ -1,6 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AFFILIATE_NAV } from "@/lib/affiliate-nav";
 import { Bell, Command, HelpCircle, Plus, Search } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CommandPalette, useCommandPalette } from "@/components/affiliate/CommandPalette";
@@ -10,6 +11,8 @@ import { RightActionPanel } from "@/components/affiliate/RightActionPanel";
 export function TopBar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const palette = useCommandPalette();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface">
