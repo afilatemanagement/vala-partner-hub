@@ -12,16 +12,29 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-manager.index'
+import { Route as AffiliateManagerWalletRouteImport } from './routes/affiliate-manager.wallet'
+import { Route as AffiliateManagerSupportRouteImport } from './routes/affiliate-manager.support'
+import { Route as AffiliateManagerSettingsRouteImport } from './routes/affiliate-manager.settings'
 import { Route as AffiliateManagerSalesRouteImport } from './routes/affiliate-manager.sales'
+import { Route as AffiliateManagerReportsRouteImport } from './routes/affiliate-manager.reports'
 import { Route as AffiliateManagerReferralNetworkRouteImport } from './routes/affiliate-manager.referral-network'
 import { Route as AffiliateManagerReferralCodesRouteImport } from './routes/affiliate-manager.referral-codes'
 import { Route as AffiliateManagerProductsRouteImport } from './routes/affiliate-manager.products'
+import { Route as AffiliateManagerPerformanceRouteImport } from './routes/affiliate-manager.performance'
+import { Route as AffiliateManagerPayoutsRouteImport } from './routes/affiliate-manager.payouts'
+import { Route as AffiliateManagerOrdersRouteImport } from './routes/affiliate-manager.orders'
 import { Route as AffiliateManagerMarketplaceRouteImport } from './routes/affiliate-manager.marketplace'
+import { Route as AffiliateManagerMarketingRouteImport } from './routes/affiliate-manager.marketing'
 import { Route as AffiliateManagerLeadsRouteImport } from './routes/affiliate-manager.leads'
+import { Route as AffiliateManagerDocumentsRouteImport } from './routes/affiliate-manager.documents'
 import { Route as AffiliateManagerCustomersRouteImport } from './routes/affiliate-manager.customers'
 import { Route as AffiliateManagerCouponsRouteImport } from './routes/affiliate-manager.coupons'
+import { Route as AffiliateManagerComplianceRouteImport } from './routes/affiliate-manager.compliance'
+import { Route as AffiliateManagerCommunicationRouteImport } from './routes/affiliate-manager.communication'
+import { Route as AffiliateManagerCommissionsRouteImport } from './routes/affiliate-manager.commissions'
 import { Route as AffiliateManagerCampaignsRouteImport } from './routes/affiliate-manager.campaigns'
 import { Route as AffiliateManagerApplicationsRouteImport } from './routes/affiliate-manager.applications'
+import { Route as AffiliateManagerAnalyticsRouteImport } from './routes/affiliate-manager.analytics'
 import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affiliate-manager.affiliates'
 import { Route as AffiliateManagerAffiliateLinksRouteImport } from './routes/affiliate-manager.affiliate-links'
 
@@ -40,9 +53,30 @@ const AffiliateManagerIndexRoute = AffiliateManagerIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
+const AffiliateManagerWalletRoute = AffiliateManagerWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerSupportRoute = AffiliateManagerSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerSettingsRoute =
+  AffiliateManagerSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 const AffiliateManagerSalesRoute = AffiliateManagerSalesRouteImport.update({
   id: '/sales',
   path: '/sales',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerReportsRoute = AffiliateManagerReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
 const AffiliateManagerReferralNetworkRoute =
@@ -63,10 +97,32 @@ const AffiliateManagerProductsRoute =
     path: '/products',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
+const AffiliateManagerPerformanceRoute =
+  AffiliateManagerPerformanceRouteImport.update({
+    id: '/performance',
+    path: '/performance',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerPayoutsRoute = AffiliateManagerPayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerOrdersRoute = AffiliateManagerOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
 const AffiliateManagerMarketplaceRoute =
   AffiliateManagerMarketplaceRouteImport.update({
     id: '/marketplace',
     path: '/marketplace',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerMarketingRoute =
+  AffiliateManagerMarketingRouteImport.update({
+    id: '/marketing',
+    path: '/marketing',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
 const AffiliateManagerLeadsRoute = AffiliateManagerLeadsRouteImport.update({
@@ -74,6 +130,12 @@ const AffiliateManagerLeadsRoute = AffiliateManagerLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
+const AffiliateManagerDocumentsRoute =
+  AffiliateManagerDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 const AffiliateManagerCustomersRoute =
   AffiliateManagerCustomersRouteImport.update({
     id: '/customers',
@@ -85,6 +147,24 @@ const AffiliateManagerCouponsRoute = AffiliateManagerCouponsRouteImport.update({
   path: '/coupons',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
+const AffiliateManagerComplianceRoute =
+  AffiliateManagerComplianceRouteImport.update({
+    id: '/compliance',
+    path: '/compliance',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerCommunicationRoute =
+  AffiliateManagerCommunicationRouteImport.update({
+    id: '/communication',
+    path: '/communication',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerCommissionsRoute =
+  AffiliateManagerCommissionsRouteImport.update({
+    id: '/commissions',
+    path: '/commissions',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 const AffiliateManagerCampaignsRoute =
   AffiliateManagerCampaignsRouteImport.update({
     id: '/campaigns',
@@ -95,6 +175,12 @@ const AffiliateManagerApplicationsRoute =
   AffiliateManagerApplicationsRouteImport.update({
     id: '/applications',
     path: '/applications',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerAnalyticsRoute =
+  AffiliateManagerAnalyticsRouteImport.update({
+    id: '/analytics',
+    path: '/analytics',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
 const AffiliateManagerAffiliatesRoute =
@@ -115,32 +201,58 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
+  '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
+  '/affiliate-manager/compliance': typeof AffiliateManagerComplianceRoute
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/orders': typeof AffiliateManagerOrdersRoute
+  '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
+  '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
+  '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
+  '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
+  '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
+  '/affiliate-manager/compliance': typeof AffiliateManagerComplianceRoute
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/orders': typeof AffiliateManagerOrdersRoute
+  '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
+  '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
+  '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
+  '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesById {
@@ -149,16 +261,29 @@ export interface FileRoutesById {
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
+  '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
+  '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
+  '/affiliate-manager/compliance': typeof AffiliateManagerComplianceRoute
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
+  '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
+  '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
+  '/affiliate-manager/orders': typeof AffiliateManagerOrdersRoute
+  '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
+  '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
+  '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
+  '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
+  '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRouteTypes {
@@ -168,32 +293,58 @@ export interface FileRouteTypes {
     | '/affiliate-manager'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
     | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/commissions'
+    | '/affiliate-manager/communication'
+    | '/affiliate-manager/compliance'
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
+    | '/affiliate-manager/documents'
     | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/orders'
+    | '/affiliate-manager/payouts'
+    | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/settings'
+    | '/affiliate-manager/support'
+    | '/affiliate-manager/wallet'
     | '/affiliate-manager/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
     | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/commissions'
+    | '/affiliate-manager/communication'
+    | '/affiliate-manager/compliance'
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
+    | '/affiliate-manager/documents'
     | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/orders'
+    | '/affiliate-manager/payouts'
+    | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/settings'
+    | '/affiliate-manager/support'
+    | '/affiliate-manager/wallet'
     | '/affiliate-manager'
   id:
     | '__root__'
@@ -201,16 +352,29 @@ export interface FileRouteTypes {
     | '/affiliate-manager'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
+    | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
     | '/affiliate-manager/campaigns'
+    | '/affiliate-manager/commissions'
+    | '/affiliate-manager/communication'
+    | '/affiliate-manager/compliance'
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
+    | '/affiliate-manager/documents'
     | '/affiliate-manager/leads'
+    | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
+    | '/affiliate-manager/orders'
+    | '/affiliate-manager/payouts'
+    | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
+    | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/settings'
+    | '/affiliate-manager/support'
+    | '/affiliate-manager/wallet'
     | '/affiliate-manager/'
   fileRoutesById: FileRoutesById
 }
@@ -242,11 +406,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerIndexRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/wallet': {
+      id: '/affiliate-manager/wallet'
+      path: '/wallet'
+      fullPath: '/affiliate-manager/wallet'
+      preLoaderRoute: typeof AffiliateManagerWalletRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/support': {
+      id: '/affiliate-manager/support'
+      path: '/support'
+      fullPath: '/affiliate-manager/support'
+      preLoaderRoute: typeof AffiliateManagerSupportRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/settings': {
+      id: '/affiliate-manager/settings'
+      path: '/settings'
+      fullPath: '/affiliate-manager/settings'
+      preLoaderRoute: typeof AffiliateManagerSettingsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/sales': {
       id: '/affiliate-manager/sales'
       path: '/sales'
       fullPath: '/affiliate-manager/sales'
       preLoaderRoute: typeof AffiliateManagerSalesRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/reports': {
+      id: '/affiliate-manager/reports'
+      path: '/reports'
+      fullPath: '/affiliate-manager/reports'
+      preLoaderRoute: typeof AffiliateManagerReportsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
     '/affiliate-manager/referral-network': {
@@ -270,6 +462,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerProductsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/performance': {
+      id: '/affiliate-manager/performance'
+      path: '/performance'
+      fullPath: '/affiliate-manager/performance'
+      preLoaderRoute: typeof AffiliateManagerPerformanceRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/payouts': {
+      id: '/affiliate-manager/payouts'
+      path: '/payouts'
+      fullPath: '/affiliate-manager/payouts'
+      preLoaderRoute: typeof AffiliateManagerPayoutsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/orders': {
+      id: '/affiliate-manager/orders'
+      path: '/orders'
+      fullPath: '/affiliate-manager/orders'
+      preLoaderRoute: typeof AffiliateManagerOrdersRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/marketplace': {
       id: '/affiliate-manager/marketplace'
       path: '/marketplace'
@@ -277,11 +490,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerMarketplaceRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/marketing': {
+      id: '/affiliate-manager/marketing'
+      path: '/marketing'
+      fullPath: '/affiliate-manager/marketing'
+      preLoaderRoute: typeof AffiliateManagerMarketingRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/leads': {
       id: '/affiliate-manager/leads'
       path: '/leads'
       fullPath: '/affiliate-manager/leads'
       preLoaderRoute: typeof AffiliateManagerLeadsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/documents': {
+      id: '/affiliate-manager/documents'
+      path: '/documents'
+      fullPath: '/affiliate-manager/documents'
+      preLoaderRoute: typeof AffiliateManagerDocumentsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
     '/affiliate-manager/customers': {
@@ -298,6 +525,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerCouponsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/compliance': {
+      id: '/affiliate-manager/compliance'
+      path: '/compliance'
+      fullPath: '/affiliate-manager/compliance'
+      preLoaderRoute: typeof AffiliateManagerComplianceRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/communication': {
+      id: '/affiliate-manager/communication'
+      path: '/communication'
+      fullPath: '/affiliate-manager/communication'
+      preLoaderRoute: typeof AffiliateManagerCommunicationRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/commissions': {
+      id: '/affiliate-manager/commissions'
+      path: '/commissions'
+      fullPath: '/affiliate-manager/commissions'
+      preLoaderRoute: typeof AffiliateManagerCommissionsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/campaigns': {
       id: '/affiliate-manager/campaigns'
       path: '/campaigns'
@@ -310,6 +558,13 @@ declare module '@tanstack/react-router' {
       path: '/applications'
       fullPath: '/affiliate-manager/applications'
       preLoaderRoute: typeof AffiliateManagerApplicationsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/analytics': {
+      id: '/affiliate-manager/analytics'
+      path: '/analytics'
+      fullPath: '/affiliate-manager/analytics'
+      preLoaderRoute: typeof AffiliateManagerAnalyticsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
     '/affiliate-manager/affiliates': {
@@ -332,32 +587,58 @@ declare module '@tanstack/react-router' {
 interface AffiliateManagerRouteChildren {
   AffiliateManagerAffiliateLinksRoute: typeof AffiliateManagerAffiliateLinksRoute
   AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRoute
+  AffiliateManagerAnalyticsRoute: typeof AffiliateManagerAnalyticsRoute
   AffiliateManagerApplicationsRoute: typeof AffiliateManagerApplicationsRoute
   AffiliateManagerCampaignsRoute: typeof AffiliateManagerCampaignsRoute
+  AffiliateManagerCommissionsRoute: typeof AffiliateManagerCommissionsRoute
+  AffiliateManagerCommunicationRoute: typeof AffiliateManagerCommunicationRoute
+  AffiliateManagerComplianceRoute: typeof AffiliateManagerComplianceRoute
   AffiliateManagerCouponsRoute: typeof AffiliateManagerCouponsRoute
   AffiliateManagerCustomersRoute: typeof AffiliateManagerCustomersRoute
+  AffiliateManagerDocumentsRoute: typeof AffiliateManagerDocumentsRoute
   AffiliateManagerLeadsRoute: typeof AffiliateManagerLeadsRoute
+  AffiliateManagerMarketingRoute: typeof AffiliateManagerMarketingRoute
   AffiliateManagerMarketplaceRoute: typeof AffiliateManagerMarketplaceRoute
+  AffiliateManagerOrdersRoute: typeof AffiliateManagerOrdersRoute
+  AffiliateManagerPayoutsRoute: typeof AffiliateManagerPayoutsRoute
+  AffiliateManagerPerformanceRoute: typeof AffiliateManagerPerformanceRoute
   AffiliateManagerProductsRoute: typeof AffiliateManagerProductsRoute
   AffiliateManagerReferralCodesRoute: typeof AffiliateManagerReferralCodesRoute
   AffiliateManagerReferralNetworkRoute: typeof AffiliateManagerReferralNetworkRoute
+  AffiliateManagerReportsRoute: typeof AffiliateManagerReportsRoute
   AffiliateManagerSalesRoute: typeof AffiliateManagerSalesRoute
+  AffiliateManagerSettingsRoute: typeof AffiliateManagerSettingsRoute
+  AffiliateManagerSupportRoute: typeof AffiliateManagerSupportRoute
+  AffiliateManagerWalletRoute: typeof AffiliateManagerWalletRoute
   AffiliateManagerIndexRoute: typeof AffiliateManagerIndexRoute
 }
 
 const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerAffiliateLinksRoute: AffiliateManagerAffiliateLinksRoute,
   AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRoute,
+  AffiliateManagerAnalyticsRoute: AffiliateManagerAnalyticsRoute,
   AffiliateManagerApplicationsRoute: AffiliateManagerApplicationsRoute,
   AffiliateManagerCampaignsRoute: AffiliateManagerCampaignsRoute,
+  AffiliateManagerCommissionsRoute: AffiliateManagerCommissionsRoute,
+  AffiliateManagerCommunicationRoute: AffiliateManagerCommunicationRoute,
+  AffiliateManagerComplianceRoute: AffiliateManagerComplianceRoute,
   AffiliateManagerCouponsRoute: AffiliateManagerCouponsRoute,
   AffiliateManagerCustomersRoute: AffiliateManagerCustomersRoute,
+  AffiliateManagerDocumentsRoute: AffiliateManagerDocumentsRoute,
   AffiliateManagerLeadsRoute: AffiliateManagerLeadsRoute,
+  AffiliateManagerMarketingRoute: AffiliateManagerMarketingRoute,
   AffiliateManagerMarketplaceRoute: AffiliateManagerMarketplaceRoute,
+  AffiliateManagerOrdersRoute: AffiliateManagerOrdersRoute,
+  AffiliateManagerPayoutsRoute: AffiliateManagerPayoutsRoute,
+  AffiliateManagerPerformanceRoute: AffiliateManagerPerformanceRoute,
   AffiliateManagerProductsRoute: AffiliateManagerProductsRoute,
   AffiliateManagerReferralCodesRoute: AffiliateManagerReferralCodesRoute,
   AffiliateManagerReferralNetworkRoute: AffiliateManagerReferralNetworkRoute,
+  AffiliateManagerReportsRoute: AffiliateManagerReportsRoute,
   AffiliateManagerSalesRoute: AffiliateManagerSalesRoute,
+  AffiliateManagerSettingsRoute: AffiliateManagerSettingsRoute,
+  AffiliateManagerSupportRoute: AffiliateManagerSupportRoute,
+  AffiliateManagerWalletRoute: AffiliateManagerWalletRoute,
   AffiliateManagerIndexRoute: AffiliateManagerIndexRoute,
 }
 
