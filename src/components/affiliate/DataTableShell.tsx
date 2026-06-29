@@ -1,5 +1,5 @@
-import type { LucideIcon, LucideProps } from "lucide-react";
-import type { ComponentType, ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { ChevronDown, Inbox } from "lucide-react";
 import { EmptyState } from "./EmptyState";
 
@@ -15,7 +15,7 @@ export function DataTableShell({
   footer,
 }: {
   columns: Column[];
-  emptyIcon?: LucideIcon | ComponentType<LucideProps>;
+  emptyIcon?: LucideIcon;
   emptyTitle: string;
   emptyDescription: string;
   emptyAction?: { label: string };
