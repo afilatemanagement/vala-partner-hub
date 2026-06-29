@@ -1,29 +1,37 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, LayoutDashboard } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Software Vala — Boss Panel" },
+      { name: "description", content: "Enterprise control center for Software Vala." },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-6">
+        <div className="grid size-12 place-items-center rounded-lg bg-primary text-primary-foreground">
+          <LayoutDashboard className="size-5" />
+        </div>
+        <h1 className="mt-5 font-display text-3xl font-semibold tracking-tight">
+          Software Vala — Boss Panel
+        </h1>
+        <p className="mt-2 max-w-xl text-center text-sm text-muted-foreground">
+          This sandbox hosts the Affiliate Manager child module. In production it is launched from
+          the existing Boss Panel navigation.
+        </p>
+        <Link
+          to="/affiliate-manager"
+          className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Open Affiliate Manager <ArrowRight className="size-4" />
+        </Link>
+      </div>
     </div>
   );
 }
