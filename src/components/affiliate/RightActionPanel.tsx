@@ -4,7 +4,8 @@ import { Tabs } from "@/components/affiliate/StatusBadge";
 import {
   BadgeCheck, Banknote, Download, Megaphone, Plus, Ticket, Upload, UserPlus, Wallet, Workflow,
 } from "lucide-react";
-import type { LucideIcon, ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 const create: { label: string; icon: LucideIcon; desc: string }[] = [
   { label: "Add Affiliate", icon: UserPlus, desc: "Manually create an affiliate" },
