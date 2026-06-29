@@ -15,6 +15,7 @@ import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-ma
 import { Route as AffiliateManagerWalletRouteImport } from './routes/affiliate-manager.wallet'
 import { Route as AffiliateManagerSupportRouteImport } from './routes/affiliate-manager.support'
 import { Route as AffiliateManagerSettingsRouteImport } from './routes/affiliate-manager.settings'
+import { Route as AffiliateManagerSearchRouteImport } from './routes/affiliate-manager.search'
 import { Route as AffiliateManagerSalesRouteImport } from './routes/affiliate-manager.sales'
 import { Route as AffiliateManagerReportsRouteImport } from './routes/affiliate-manager.reports'
 import { Route as AffiliateManagerReferralNetworkRouteImport } from './routes/affiliate-manager.referral-network'
@@ -69,6 +70,11 @@ const AffiliateManagerSettingsRoute =
     path: '/settings',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
+const AffiliateManagerSearchRoute = AffiliateManagerSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
 const AffiliateManagerSalesRoute = AffiliateManagerSalesRouteImport.update({
   id: '/sales',
   path: '/sales',
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/search': typeof AffiliateManagerSearchRoute
   '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/search': typeof AffiliateManagerSearchRoute
   '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
   '/affiliate-manager/sales': typeof AffiliateManagerSalesRoute
+  '/affiliate-manager/search': typeof AffiliateManagerSearchRoute
   '/affiliate-manager/settings': typeof AffiliateManagerSettingsRoute
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/search'
     | '/affiliate-manager/settings'
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/search'
     | '/affiliate-manager/settings'
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
     | '/affiliate-manager/sales'
+    | '/affiliate-manager/search'
     | '/affiliate-manager/settings'
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
@@ -425,6 +437,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/affiliate-manager/settings'
       preLoaderRoute: typeof AffiliateManagerSettingsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/search': {
+      id: '/affiliate-manager/search'
+      path: '/search'
+      fullPath: '/affiliate-manager/search'
+      preLoaderRoute: typeof AffiliateManagerSearchRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
     '/affiliate-manager/sales': {
@@ -607,6 +626,7 @@ interface AffiliateManagerRouteChildren {
   AffiliateManagerReferralNetworkRoute: typeof AffiliateManagerReferralNetworkRoute
   AffiliateManagerReportsRoute: typeof AffiliateManagerReportsRoute
   AffiliateManagerSalesRoute: typeof AffiliateManagerSalesRoute
+  AffiliateManagerSearchRoute: typeof AffiliateManagerSearchRoute
   AffiliateManagerSettingsRoute: typeof AffiliateManagerSettingsRoute
   AffiliateManagerSupportRoute: typeof AffiliateManagerSupportRoute
   AffiliateManagerWalletRoute: typeof AffiliateManagerWalletRoute
@@ -636,6 +656,7 @@ const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerReferralNetworkRoute: AffiliateManagerReferralNetworkRoute,
   AffiliateManagerReportsRoute: AffiliateManagerReportsRoute,
   AffiliateManagerSalesRoute: AffiliateManagerSalesRoute,
+  AffiliateManagerSearchRoute: AffiliateManagerSearchRoute,
   AffiliateManagerSettingsRoute: AffiliateManagerSettingsRoute,
   AffiliateManagerSupportRoute: AffiliateManagerSupportRoute,
   AffiliateManagerWalletRoute: AffiliateManagerWalletRoute,
