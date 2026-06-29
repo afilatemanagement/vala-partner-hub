@@ -56,13 +56,14 @@ function UniversalSearchWall() {
   }, [results]);
 
   const setSearch = (patch: Partial<{ q: string; kind: string[]; group: string[]; wall: string }>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch }) });
+    navigate({ search: (prev: any) => ({ ...prev, ...patch }) });
 
   const toggle = (key: "kind" | "group", value: string) => {
-    const current = key === "kind" ? kind : group;
-    const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+    const current: string[] = key === "kind" ? kind : group;
+    const next = current.includes(value) ? current.filter((v: string) => v !== value) : [...current, value];
     setSearch({ [key]: next } as any);
   };
+
 
   const totalsByKind = useMemo(() => {
     const counts: Partial<Record<SearchEntityKind, number>> = {};
