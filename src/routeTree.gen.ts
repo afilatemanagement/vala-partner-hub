@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-manager.index'
 
 const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
   id: '/affiliate-manager',
@@ -22,31 +23,38 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AffiliateManagerIndexRoute = AffiliateManagerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/affiliate-manager': typeof AffiliateManagerRoute
+  '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/affiliate-manager': typeof AffiliateManagerRoute
+  '/affiliate-manager': typeof AffiliateManagerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/affiliate-manager': typeof AffiliateManagerRoute
+  '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/affiliate-manager/': typeof AffiliateManagerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/affiliate-manager'
+  fullPaths: '/' | '/affiliate-manager' | '/affiliate-manager/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/affiliate-manager'
-  id: '__root__' | '/' | '/affiliate-manager'
+  id: '__root__' | '/' | '/affiliate-manager' | '/affiliate-manager/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AffiliateManagerRoute: typeof AffiliateManagerRoute
+  AffiliateManagerRoute: typeof AffiliateManagerRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +73,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/affiliate-manager/': {
+      id: '/affiliate-manager/'
+      path: '/'
+      fullPath: '/affiliate-manager/'
+      preLoaderRoute: typeof AffiliateManagerIndexRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
   }
 }
 
+interface AffiliateManagerRouteChildren {
+  AffiliateManagerIndexRoute: typeof AffiliateManagerIndexRoute
+}
+
+const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
+  AffiliateManagerIndexRoute: AffiliateManagerIndexRoute,
+}
+
+const AffiliateManagerRouteWithChildren =
+  AffiliateManagerRoute._addFileChildren(AffiliateManagerRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AffiliateManagerRoute: AffiliateManagerRoute,
+  AffiliateManagerRoute: AffiliateManagerRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
