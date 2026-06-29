@@ -1,6 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AFFILIATE_NAV } from "@/lib/affiliate-nav";
 import { Bell, Command, HelpCircle, Plus, Search } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CommandPalette, useCommandPalette } from "@/components/affiliate/CommandPalette";
@@ -10,6 +11,8 @@ import { RightActionPanel } from "@/components/affiliate/RightActionPanel";
 export function TopBar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const palette = useCommandPalette();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface">
@@ -30,23 +33,34 @@ export function TopBar() {
           <span className="text-foreground">Affiliate</span>
         </div>
 
-        <div className="ml-auto flex w-full max-w-md items-center">
-          <button
-            onClick={() => palette.setOpen(true)}
-            className="relative w-full text-left"
-            aria-label="Open command palette"
+        <div className="ml-auto flex w-full max-w-md items-center gap-2">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate({ to: "/affiliate-manager/search", search: { q, kind: [], group: [], wall: "" } });
+            }}
+            className="relative w-full"
+            role="search"
           >
             <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
               placeholder="Search affiliates, campaigns, orders…"
-              className="h-9 pl-8 pr-16 bg-muted/60 border-border pointer-events-none"
-              readOnly
+              className="h-9 pl-8 pr-16 bg-muted/60 border-border"
+              aria-label="Universal search"
             />
-            <kbd className="pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] text-muted-foreground sm:flex">
+            <button
+              type="button"
+              onClick={() => palette.setOpen(true)}
+              className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] text-muted-foreground hover:text-foreground sm:flex"
+              aria-label="Open command palette"
+            >
               <Command className="size-3" /> K
-            </kbd>
-          </button>
+            </button>
+          </form>
         </div>
+
 
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" className="size-9" aria-label="Help">
