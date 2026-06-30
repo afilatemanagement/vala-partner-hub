@@ -27,6 +27,8 @@ import { Route as AffiliateManagerOrdersRouteImport } from './routes/affiliate-m
 import { Route as AffiliateManagerMarketplaceRouteImport } from './routes/affiliate-manager.marketplace'
 import { Route as AffiliateManagerMarketingRouteImport } from './routes/affiliate-manager.marketing'
 import { Route as AffiliateManagerLeadsRouteImport } from './routes/affiliate-manager.leads'
+import { Route as AffiliateManagerImportRouteImport } from './routes/affiliate-manager.import'
+import { Route as AffiliateManagerExportRouteImport } from './routes/affiliate-manager.export'
 import { Route as AffiliateManagerDocumentsRouteImport } from './routes/affiliate-manager.documents'
 import { Route as AffiliateManagerCustomersRouteImport } from './routes/affiliate-manager.customers'
 import { Route as AffiliateManagerCouponsRouteImport } from './routes/affiliate-manager.coupons'
@@ -34,6 +36,7 @@ import { Route as AffiliateManagerComplianceRouteImport } from './routes/affilia
 import { Route as AffiliateManagerCommunicationRouteImport } from './routes/affiliate-manager.communication'
 import { Route as AffiliateManagerCommissionsRouteImport } from './routes/affiliate-manager.commissions'
 import { Route as AffiliateManagerCampaignsRouteImport } from './routes/affiliate-manager.campaigns'
+import { Route as AffiliateManagerBulkActionsRouteImport } from './routes/affiliate-manager.bulk-actions'
 import { Route as AffiliateManagerApplicationsRouteImport } from './routes/affiliate-manager.applications'
 import { Route as AffiliateManagerAnalyticsRouteImport } from './routes/affiliate-manager.analytics'
 import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affiliate-manager.affiliates'
@@ -136,6 +139,16 @@ const AffiliateManagerLeadsRoute = AffiliateManagerLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AffiliateManagerRoute,
 } as any)
+const AffiliateManagerImportRoute = AffiliateManagerImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
+const AffiliateManagerExportRoute = AffiliateManagerExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => AffiliateManagerRoute,
+} as any)
 const AffiliateManagerDocumentsRoute =
   AffiliateManagerDocumentsRouteImport.update({
     id: '/documents',
@@ -177,6 +190,12 @@ const AffiliateManagerCampaignsRoute =
     path: '/campaigns',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
+const AffiliateManagerBulkActionsRoute =
+  AffiliateManagerBulkActionsRouteImport.update({
+    id: '/bulk-actions',
+    path: '/bulk-actions',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 const AffiliateManagerApplicationsRoute =
   AffiliateManagerApplicationsRouteImport.update({
     id: '/applications',
@@ -209,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
   '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
@@ -216,6 +236,8 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
   '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
+  '/affiliate-manager/export': typeof AffiliateManagerExportRoute
+  '/affiliate-manager/import': typeof AffiliateManagerImportRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
   '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
@@ -239,6 +261,7 @@ export interface FileRoutesByTo {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
   '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
@@ -246,6 +269,8 @@ export interface FileRoutesByTo {
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
   '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
+  '/affiliate-manager/export': typeof AffiliateManagerExportRoute
+  '/affiliate-manager/import': typeof AffiliateManagerImportRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
   '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
@@ -271,6 +296,7 @@ export interface FileRoutesById {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
   '/affiliate-manager/communication': typeof AffiliateManagerCommunicationRoute
@@ -278,6 +304,8 @@ export interface FileRoutesById {
   '/affiliate-manager/coupons': typeof AffiliateManagerCouponsRoute
   '/affiliate-manager/customers': typeof AffiliateManagerCustomersRoute
   '/affiliate-manager/documents': typeof AffiliateManagerDocumentsRoute
+  '/affiliate-manager/export': typeof AffiliateManagerExportRoute
+  '/affiliate-manager/import': typeof AffiliateManagerImportRoute
   '/affiliate-manager/leads': typeof AffiliateManagerLeadsRoute
   '/affiliate-manager/marketing': typeof AffiliateManagerMarketingRoute
   '/affiliate-manager/marketplace': typeof AffiliateManagerMarketplaceRoute
@@ -304,6 +332,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
     | '/affiliate-manager/communication'
@@ -311,6 +340,8 @@ export interface FileRouteTypes {
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
     | '/affiliate-manager/documents'
+    | '/affiliate-manager/export'
+    | '/affiliate-manager/import'
     | '/affiliate-manager/leads'
     | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
@@ -334,6 +365,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
     | '/affiliate-manager/communication'
@@ -341,6 +373,8 @@ export interface FileRouteTypes {
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
     | '/affiliate-manager/documents'
+    | '/affiliate-manager/export'
+    | '/affiliate-manager/import'
     | '/affiliate-manager/leads'
     | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
@@ -365,6 +399,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
     | '/affiliate-manager/communication'
@@ -372,6 +407,8 @@ export interface FileRouteTypes {
     | '/affiliate-manager/coupons'
     | '/affiliate-manager/customers'
     | '/affiliate-manager/documents'
+    | '/affiliate-manager/export'
+    | '/affiliate-manager/import'
     | '/affiliate-manager/leads'
     | '/affiliate-manager/marketing'
     | '/affiliate-manager/marketplace'
@@ -523,6 +560,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerLeadsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/import': {
+      id: '/affiliate-manager/import'
+      path: '/import'
+      fullPath: '/affiliate-manager/import'
+      preLoaderRoute: typeof AffiliateManagerImportRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/export': {
+      id: '/affiliate-manager/export'
+      path: '/export'
+      fullPath: '/affiliate-manager/export'
+      preLoaderRoute: typeof AffiliateManagerExportRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/documents': {
       id: '/affiliate-manager/documents'
       path: '/documents'
@@ -572,6 +623,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerCampaignsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/bulk-actions': {
+      id: '/affiliate-manager/bulk-actions'
+      path: '/bulk-actions'
+      fullPath: '/affiliate-manager/bulk-actions'
+      preLoaderRoute: typeof AffiliateManagerBulkActionsRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/applications': {
       id: '/affiliate-manager/applications'
       path: '/applications'
@@ -608,6 +666,7 @@ interface AffiliateManagerRouteChildren {
   AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRoute
   AffiliateManagerAnalyticsRoute: typeof AffiliateManagerAnalyticsRoute
   AffiliateManagerApplicationsRoute: typeof AffiliateManagerApplicationsRoute
+  AffiliateManagerBulkActionsRoute: typeof AffiliateManagerBulkActionsRoute
   AffiliateManagerCampaignsRoute: typeof AffiliateManagerCampaignsRoute
   AffiliateManagerCommissionsRoute: typeof AffiliateManagerCommissionsRoute
   AffiliateManagerCommunicationRoute: typeof AffiliateManagerCommunicationRoute
@@ -615,6 +674,8 @@ interface AffiliateManagerRouteChildren {
   AffiliateManagerCouponsRoute: typeof AffiliateManagerCouponsRoute
   AffiliateManagerCustomersRoute: typeof AffiliateManagerCustomersRoute
   AffiliateManagerDocumentsRoute: typeof AffiliateManagerDocumentsRoute
+  AffiliateManagerExportRoute: typeof AffiliateManagerExportRoute
+  AffiliateManagerImportRoute: typeof AffiliateManagerImportRoute
   AffiliateManagerLeadsRoute: typeof AffiliateManagerLeadsRoute
   AffiliateManagerMarketingRoute: typeof AffiliateManagerMarketingRoute
   AffiliateManagerMarketplaceRoute: typeof AffiliateManagerMarketplaceRoute
@@ -638,6 +699,7 @@ const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRoute,
   AffiliateManagerAnalyticsRoute: AffiliateManagerAnalyticsRoute,
   AffiliateManagerApplicationsRoute: AffiliateManagerApplicationsRoute,
+  AffiliateManagerBulkActionsRoute: AffiliateManagerBulkActionsRoute,
   AffiliateManagerCampaignsRoute: AffiliateManagerCampaignsRoute,
   AffiliateManagerCommissionsRoute: AffiliateManagerCommissionsRoute,
   AffiliateManagerCommunicationRoute: AffiliateManagerCommunicationRoute,
@@ -645,6 +707,8 @@ const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerCouponsRoute: AffiliateManagerCouponsRoute,
   AffiliateManagerCustomersRoute: AffiliateManagerCustomersRoute,
   AffiliateManagerDocumentsRoute: AffiliateManagerDocumentsRoute,
+  AffiliateManagerExportRoute: AffiliateManagerExportRoute,
+  AffiliateManagerImportRoute: AffiliateManagerImportRoute,
   AffiliateManagerLeadsRoute: AffiliateManagerLeadsRoute,
   AffiliateManagerMarketingRoute: AffiliateManagerMarketingRoute,
   AffiliateManagerMarketplaceRoute: AffiliateManagerMarketplaceRoute,
