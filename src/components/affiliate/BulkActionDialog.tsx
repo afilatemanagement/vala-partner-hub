@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import type { BulkAction } from "@/lib/affiliate-bulk";
 import { downloadCsv } from "@/lib/affiliate-bulk";
+import { usePermissions, can, BULK_ACTION_PERMISSIONS } from "@/lib/affiliate-permissions";
+import { Lock } from "lucide-react";
 
 type Phase = "confirm" | "running" | "done";
 
@@ -48,10 +50,13 @@ export function BulkActionDialog({
     }
   }, [open]);
 
+  const { data: perms } = usePermissions();
   if (!action) return null;
 
+  const requiredPerm = BULK_ACTION_PERMISSIONS[action.id];
+  const allowed = !requiredPerm || can(perms, requiredPerm) || perms?.roles.includes("admin");
   const needsTyping = action.destructive;
-  const canConfirm = !needsTyping || confirmText.trim().toUpperCase() === "CONFIRM";
+  const canConfirm = allowed && (!needsTyping || confirmText.trim().toUpperCase() === "CONFIRM");
   const Icon = action.icon;
 
   function run() {
@@ -130,6 +135,18 @@ export function BulkActionDialog({
         {phase === "confirm" && (
           <div className="px-5 py-4 space-y-4">
             <p className="text-sm text-muted-foreground">{action.description}</p>
+            {!allowed && requiredPerm && (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-[12px] text-destructive flex gap-2">
+                <Lock className="size-4 shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-medium">403 — permission required</div>
+                  <div className="mt-0.5">
+                    Your role ({perms?.roles.join(", ") || "none"}) does not include{" "}
+                    <span className="font-mono">{requiredPerm}</span>. Ask an admin to grant it before running this action.
+                  </div>
+                </div>
+              </div>
+            )}
             {action.destructive && (
               <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-[12px] text-destructive flex gap-2">
                 <AlertTriangle className="size-4 shrink-0 mt-0.5" />

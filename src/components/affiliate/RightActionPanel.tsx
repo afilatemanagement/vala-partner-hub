@@ -2,13 +2,18 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/affiliate/StatusBadge";
 import { Link } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 import {
   BadgeCheck, Banknote, Download, Layers, Megaphone, Plus, Ticket, Upload, UserPlus, Wallet, Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { usePermissions, can, QUICK_ACTION_PERMISSIONS, type Permission } from "@/lib/affiliate-permissions";
+import { toast } from "sonner";
 
-const create: { label: string; icon: LucideIcon; desc: string; to?: string }[] = [
+type Item = { label: string; icon: LucideIcon; desc: string; to?: string };
+
+const create: Item[] = [
   { label: "Add Affiliate", icon: UserPlus, desc: "Manually create an affiliate", to: "/affiliate-manager/affiliates" },
   { label: "Launch Campaign", icon: Megaphone, desc: "New campaign with products & budget", to: "/affiliate-manager/campaigns" },
   { label: "Generate Codes", icon: Ticket, desc: "Bulk create referral / coupon codes", to: "/affiliate-manager/referral-codes" },
@@ -17,7 +22,7 @@ const create: { label: string; icon: LucideIcon; desc: string; to?: string }[] =
   { label: "Create Workflow", icon: Workflow, desc: "Automation rule", to: "/affiliate-manager/settings" },
 ];
 
-const ops: { label: string; icon: LucideIcon; desc: string; to: string }[] = [
+const ops: Item[] = [
   { label: "Mass Bulk Actions", icon: Layers, desc: "Approve, suspend, message, assign, payout", to: "/affiliate-manager/bulk-actions" },
   { label: "Mass Approve", icon: BadgeCheck, desc: "Process the approval queue", to: "/affiliate-manager/bulk-actions" },
   { label: "Import Center", icon: Upload, desc: "Affiliates, links, codes, campaigns, payouts", to: "/affiliate-manager/import" },
@@ -25,6 +30,7 @@ const ops: { label: string; icon: LucideIcon; desc: string; to: string }[] = [
 ];
 
 export function RightActionPanel({ trigger }: { trigger: ReactNode }) {
+  const { data: perms } = usePermissions();
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
@@ -37,14 +43,16 @@ export function RightActionPanel({ trigger }: { trigger: ReactNode }) {
         <Tabs items={["Create", "Bulk Ops", "Recent"]} />
         <div className="flex-1 overflow-y-auto p-4 space-y-5">
           <Section title="Create">
-            {create.map((it) => <ActionRow key={it.label} {...it} />)}
+            {create.map((it) => <ActionRow key={it.label} item={it} perms={perms} />)}
           </Section>
           <Section title="Bulk Operations">
-            {ops.map((it) => <ActionRow key={it.label} {...it} />)}
+            {ops.map((it) => <ActionRow key={it.label} item={it} perms={perms} />)}
           </Section>
         </div>
         <div className="border-t border-border px-4 py-2.5 flex items-center justify-between">
-          <span className="text-[11px] text-muted-foreground">Press <kbd className="rounded border border-border bg-muted px-1">⌘</kbd> <kbd className="rounded border border-border bg-muted px-1">K</kbd> for command palette</span>
+          <span className="text-[11px] text-muted-foreground">
+            {perms?.authenticated ? `Role: ${perms.roles.join(", ") || "none"}` : "Sign in for actions"}
+          </span>
           <Button size="sm" variant="outline">Close</Button>
         </div>
       </SheetContent>
@@ -61,19 +69,52 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function ActionRow({ label, icon: Icon, desc, to }: { label: string; icon: LucideIcon; desc: string; to?: string }) {
-  const inner = (
+function ActionRow({
+  item,
+  perms,
+}: {
+  item: Item;
+  perms: ReturnType<typeof usePermissions>["data"];
+}) {
+  const { label, icon: Icon, desc, to } = item;
+  const required = QUICK_ACTION_PERMISSIONS[label] as Permission | undefined;
+  const allowed = !required || can(perms, required);
+  const cls = "group flex w-full items-center gap-3 rounded-md border border-border bg-surface p-3 text-left transition-colors";
+  const body = (
     <>
-      <div className="grid size-9 place-items-center rounded-md bg-primary-soft text-primary">
-        <Icon className="size-4" />
+      <div className={`grid size-9 place-items-center rounded-md ${allowed ? "bg-primary-soft text-primary" : "bg-muted text-muted-foreground"}`}>
+        {allowed ? <Icon className="size-4" /> : <Lock className="size-4" />}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-sm font-medium text-foreground">{label}</div>
-        <div className="truncate text-[12px] text-muted-foreground">{desc}</div>
+        <div className="text-sm font-medium text-foreground flex items-center gap-2">
+          {label}
+          {!allowed && required && (
+            <span className="rounded border border-destructive/30 bg-destructive/10 px-1.5 py-0.5 text-[10px] font-normal text-destructive">
+              403
+            </span>
+          )}
+        </div>
+        <div className="truncate text-[12px] text-muted-foreground">
+          {allowed ? desc : `Requires ${required} permission`}
+        </div>
       </div>
     </>
   );
-  const cls = "group flex w-full items-center gap-3 rounded-md border border-border bg-surface p-3 text-left transition-colors hover:border-border-strong hover:bg-muted/40";
-  if (to) return <Link to={to} className={cls}>{inner}</Link>;
-  return <button className={cls}>{inner}</button>;
+  if (!allowed) {
+    return (
+      <button
+        type="button"
+        className={`${cls} cursor-not-allowed opacity-60`}
+        onClick={() =>
+          toast.error("Permission denied", {
+            description: `You need "${required}" to run "${label}".`,
+          })
+        }
+      >
+        {body}
+      </button>
+    );
+  }
+  if (to) return <Link to={to} className={`${cls} hover:border-border-strong hover:bg-muted/40`}>{body}</Link>;
+  return <button type="button" className={`${cls} hover:border-border-strong hover:bg-muted/40`}>{body}</button>;
 }
