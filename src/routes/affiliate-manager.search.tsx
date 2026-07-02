@@ -92,7 +92,7 @@ function UniversalSearchWall() {
     queryFn: async () => {
       const { data, error } = await supabase.rpc("universal_search", {
         _q: q,
-        _entity_types: dbEntityFilter,
+        _entity_types: dbEntityFilter ?? undefined,
         _limit: PAGE_SIZE,
         _offset: (page - 1) * PAGE_SIZE,
       });
