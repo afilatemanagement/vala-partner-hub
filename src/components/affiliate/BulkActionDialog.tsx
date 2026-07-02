@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import type { BulkAction } from "@/lib/affiliate-bulk";
 import { downloadCsv } from "@/lib/affiliate-bulk";
+import { usePermissions, can, BULK_ACTION_PERMISSIONS } from "@/lib/affiliate-permissions";
+import { Lock } from "lucide-react";
 
 type Phase = "confirm" | "running" | "done";
 
