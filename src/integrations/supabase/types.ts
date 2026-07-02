@@ -414,6 +414,27 @@ export type Database = {
           },
         ]
       }
+      role_permissions: {
+        Row: {
+          created_at: string
+          id: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          permission: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          permission?: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -485,6 +506,11 @@ export type Database = {
           status: string
         }[]
       }
+      get_my_permissions: { Args: never; Returns: Json }
+      has_permission: {
+        Args: { _permission: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -493,6 +519,26 @@ export type Database = {
         Returns: boolean
       }
       is_boss: { Args: { _user_id: string }; Returns: boolean }
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
+      universal_search: {
+        Args: {
+          _entity_types?: string[]
+          _limit?: number
+          _offset?: number
+          _q: string
+        }
+        Returns: {
+          entity_id: string
+          entity_type: string
+          route: string
+          score: number
+          status: string
+          subtitle: string
+          title: string
+          total_count: number
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "manager" | "affiliate"
