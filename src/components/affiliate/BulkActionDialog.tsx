@@ -50,10 +50,13 @@ export function BulkActionDialog({
     }
   }, [open]);
 
+  const { data: perms } = usePermissions();
   if (!action) return null;
 
+  const requiredPerm = BULK_ACTION_PERMISSIONS[action.id];
+  const allowed = !requiredPerm || can(perms, requiredPerm) || perms?.roles.includes("admin");
   const needsTyping = action.destructive;
-  const canConfirm = !needsTyping || confirmText.trim().toUpperCase() === "CONFIRM";
+  const canConfirm = allowed && (!needsTyping || confirmText.trim().toUpperCase() === "CONFIRM");
   const Icon = action.icon;
 
   function run() {
