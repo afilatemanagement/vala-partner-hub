@@ -12,7 +12,7 @@ type PayloadRecord = Record<string, unknown> & {
 
 /** Query keys to invalidate per source table. Dashboard + Top Affiliates are
  * refreshed alongside their owning walls so KPIs stay live across tabs. */
-const INVALIDATE_KEYS: Record<string, string[][]> = {
+const INVALIDATE_KEYS: Record<string, (string | number)[][]> = {
   affiliates: [
     ["affiliate", "list"],
     ["affiliate", "dashboard-stats"],
