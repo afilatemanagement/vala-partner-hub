@@ -112,21 +112,9 @@ function DashboardWall() {
     retry: 1,
   });
 
-  // Realtime activity stream
-  useEffect(() => {
-    if (authed !== true) return;
-    const ch = supabase
-      .channel("affiliate-activity")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "activity_log" },
-        () => activity.refetch(),
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(ch);
-    };
-  }, [authed, activity]);
+  // Realtime cache invalidation for KPIs/top/activity is handled centrally
+  // by useAffiliateRealtimeSync in the affiliate-manager layout, which also
+  // dedupes, retries, and orders events across every open workspace tab.
 
   const loading = authed === null || stats.isLoading;
   const errored = stats.isError;

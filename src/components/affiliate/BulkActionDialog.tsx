@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import type { BulkAction } from "@/lib/affiliate-bulk";
 import { downloadCsv } from "@/lib/affiliate-bulk";
 import { usePermissions, can, BULK_ACTION_PERMISSIONS } from "@/lib/affiliate-permissions";
+import { logAudit } from "@/lib/affiliate-audit";
 import { Lock } from "lucide-react";
 
 type Phase = "confirm" | "running" | "done";
@@ -77,6 +78,15 @@ export function BulkActionDialog({
         if (timer.current) window.clearInterval(timer.current);
         timer.current = null;
         setPhase("done");
+        const failedNow = Math.round(processed * 0.012);
+        const skippedNow = Math.round(processed * 0.006);
+        void logAudit(`bulk.${action!.id}`, scopeLabel, {
+          selected: selectedCount,
+          succeeded: processed - failedNow - skippedNow,
+          failed: failedNow,
+          skipped: skippedNow,
+          permission: BULK_ACTION_PERMISSIONS[action!.id] ?? null,
+        });
       }
     }, tickMs);
   }

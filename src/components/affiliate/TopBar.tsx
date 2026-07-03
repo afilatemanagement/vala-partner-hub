@@ -1,9 +1,19 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AFFILIATE_NAV } from "@/lib/affiliate-nav";
-import { Bell, Command, HelpCircle, Plus, Search } from "lucide-react";
+import { Bell, Command, HelpCircle, LogOut, Plus, Search, Settings, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { CommandPalette, useCommandPalette } from "@/components/affiliate/CommandPalette";
 import { NotificationCenter } from "@/components/affiliate/NotificationCenter";
 import { RightActionPanel } from "@/components/affiliate/RightActionPanel";
@@ -63,7 +73,14 @@ export function TopBar() {
 
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="size-9" aria-label="Help">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-9"
+            aria-label="Help & keyboard shortcuts"
+            title="Help (⌘K)"
+            onClick={() => palette.setOpen(true)}
+          >
             <HelpCircle className="size-4" />
           </Button>
           <NotificationCenter
@@ -81,9 +98,45 @@ export function TopBar() {
               </Button>
             }
           />
-          <div className="ml-2 grid size-8 place-items-center rounded-full bg-primary-soft text-primary font-semibold text-xs">
-            SV
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label="Operator menu"
+                className="ml-2 grid size-8 place-items-center rounded-full bg-primary-soft text-primary font-semibold text-xs hover:ring-2 hover:ring-primary/30 transition"
+              >
+                SV
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>Boss Panel Operator</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/affiliate-manager/settings">
+                  <User className="size-4 mr-2" /> Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/affiliate-manager/settings">
+                  <Settings className="size-4 mr-2" /> Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => palette.setOpen(true)}>
+                <Command className="size-4 mr-2" /> Command palette
+                <span className="ml-auto text-[10px] text-muted-foreground">⌘K</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onSelect={async () => {
+                  await supabase.auth.signOut();
+                  toast.success("Signed out");
+                  navigate({ to: "/" });
+                }}
+              >
+                <LogOut className="size-4 mr-2" /> Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
