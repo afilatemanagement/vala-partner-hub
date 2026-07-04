@@ -24,3 +24,17 @@ export async function logAudit(
     console.warn("[audit] failed to record", action, err);
   }
 }
+
+/**
+ * Convenience wrapper for single-row operator actions (activate, deactivate,
+ * status change, commission/wallet/payout updates). Encodes a consistent
+ * `action` verb + `entity` id so activity_log can be filtered per record.
+ */
+export async function logRowAction(
+  entity: string,
+  entityId: string,
+  action: string,
+  metadata: Record<string, unknown> = {},
+): Promise<void> {
+  await logAudit(`${entity}.${action}`, entityId, { scope: "row", entity, entityId, ...metadata });
+}
