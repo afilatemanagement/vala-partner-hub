@@ -20,6 +20,7 @@ import { Route as AffiliateManagerSalesRouteImport } from './routes/affiliate-ma
 import { Route as AffiliateManagerReportsRouteImport } from './routes/affiliate-manager.reports'
 import { Route as AffiliateManagerReferralNetworkRouteImport } from './routes/affiliate-manager.referral-network'
 import { Route as AffiliateManagerReferralCodesRouteImport } from './routes/affiliate-manager.referral-codes'
+import { Route as AffiliateManagerRealtimeTestRouteImport } from './routes/affiliate-manager.realtime-test'
 import { Route as AffiliateManagerProductsRouteImport } from './routes/affiliate-manager.products'
 import { Route as AffiliateManagerPerformanceRouteImport } from './routes/affiliate-manager.performance'
 import { Route as AffiliateManagerPayoutsRouteImport } from './routes/affiliate-manager.payouts'
@@ -98,6 +99,12 @@ const AffiliateManagerReferralCodesRoute =
   AffiliateManagerReferralCodesRouteImport.update({
     id: '/referral-codes',
     path: '/referral-codes',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
+const AffiliateManagerRealtimeTestRoute =
+  AffiliateManagerRealtimeTestRouteImport.update({
+    id: '/realtime-test',
+    path: '/realtime-test',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
 const AffiliateManagerProductsRoute =
@@ -245,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
   '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/realtime-test': typeof AffiliateManagerRealtimeTestRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
@@ -278,6 +286,7 @@ export interface FileRoutesByTo {
   '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
   '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/realtime-test': typeof AffiliateManagerRealtimeTestRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
@@ -313,6 +322,7 @@ export interface FileRoutesById {
   '/affiliate-manager/payouts': typeof AffiliateManagerPayoutsRoute
   '/affiliate-manager/performance': typeof AffiliateManagerPerformanceRoute
   '/affiliate-manager/products': typeof AffiliateManagerProductsRoute
+  '/affiliate-manager/realtime-test': typeof AffiliateManagerRealtimeTestRoute
   '/affiliate-manager/referral-codes': typeof AffiliateManagerReferralCodesRoute
   '/affiliate-manager/referral-network': typeof AffiliateManagerReferralNetworkRoute
   '/affiliate-manager/reports': typeof AffiliateManagerReportsRoute
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/payouts'
     | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
+    | '/affiliate-manager/realtime-test'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/payouts'
     | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
+    | '/affiliate-manager/realtime-test'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
@@ -416,6 +428,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/payouts'
     | '/affiliate-manager/performance'
     | '/affiliate-manager/products'
+    | '/affiliate-manager/realtime-test'
     | '/affiliate-manager/referral-codes'
     | '/affiliate-manager/referral-network'
     | '/affiliate-manager/reports'
@@ -509,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/referral-codes'
       fullPath: '/affiliate-manager/referral-codes'
       preLoaderRoute: typeof AffiliateManagerReferralCodesRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
+    '/affiliate-manager/realtime-test': {
+      id: '/affiliate-manager/realtime-test'
+      path: '/realtime-test'
+      fullPath: '/affiliate-manager/realtime-test'
+      preLoaderRoute: typeof AffiliateManagerRealtimeTestRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
     '/affiliate-manager/products': {
@@ -683,6 +703,7 @@ interface AffiliateManagerRouteChildren {
   AffiliateManagerPayoutsRoute: typeof AffiliateManagerPayoutsRoute
   AffiliateManagerPerformanceRoute: typeof AffiliateManagerPerformanceRoute
   AffiliateManagerProductsRoute: typeof AffiliateManagerProductsRoute
+  AffiliateManagerRealtimeTestRoute: typeof AffiliateManagerRealtimeTestRoute
   AffiliateManagerReferralCodesRoute: typeof AffiliateManagerReferralCodesRoute
   AffiliateManagerReferralNetworkRoute: typeof AffiliateManagerReferralNetworkRoute
   AffiliateManagerReportsRoute: typeof AffiliateManagerReportsRoute
@@ -716,6 +737,7 @@ const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerPayoutsRoute: AffiliateManagerPayoutsRoute,
   AffiliateManagerPerformanceRoute: AffiliateManagerPerformanceRoute,
   AffiliateManagerProductsRoute: AffiliateManagerProductsRoute,
+  AffiliateManagerRealtimeTestRoute: AffiliateManagerRealtimeTestRoute,
   AffiliateManagerReferralCodesRoute: AffiliateManagerReferralCodesRoute,
   AffiliateManagerReferralNetworkRoute: AffiliateManagerReferralNetworkRoute,
   AffiliateManagerReportsRoute: AffiliateManagerReportsRoute,

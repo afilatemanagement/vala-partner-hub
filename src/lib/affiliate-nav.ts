@@ -34,4 +34,5 @@ export const AFFILIATE_NAV: WallNav[] = [
   { to: "/affiliate-manager/import", label: "Import", group: "system" },
   { to: "/affiliate-manager/export", label: "Export", group: "system" },
   { to: "/affiliate-manager/settings", label: "Settings", group: "system" },
+  { to: "/affiliate-manager/realtime-test", label: "Realtime Test", group: "system" },
 ];
