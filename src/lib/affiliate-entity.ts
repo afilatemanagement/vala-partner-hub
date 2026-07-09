@@ -60,7 +60,7 @@ export function useEntityList<T = Record<string, unknown>>(opts: EntityListOptio
       for (const f of filters) {
         if (f.value == null || f.value === "" || f.value === "all") continue;
         const op = f.op ?? "eq";
-        // @ts-expect-error dynamic filter dispatch
+        // dynamic filter dispatch (types loosened via client cast)
         q = q[op](f.column, f.value);
       }
       if (search?.q && search.columns.length) {
