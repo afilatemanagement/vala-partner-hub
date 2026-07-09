@@ -1,59 +1,58 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClipboardList, FileCheck2, ShieldAlert, Clock, BadgeCheck, XCircle } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { UserPlus, Clock, ShieldCheck, ShieldX, ClipboardList } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Application = {
+  id: string; applicant_name: string; email: string; country: string | null;
+  category: string | null; status: string; risk_score: number; kyc_status: string;
+  submitted_at: string;
+};
 
 export const Route = createFileRoute("/affiliate-manager/applications")({
   head: () => ({ meta: [{ title: "Applications — Affiliate Manager" }] }),
-  component: ApplicationsWall,
+  component: () => (
+    <EntityWall<Application>
+      title="Applications"
+      description="Every affiliate application with KYC status, risk score, and approval workflow."
+      crumbLabel="Applications"
+      table="affiliate_applications"
+      searchColumns={["applicant_name", "email", "country"]}
+      searchPlaceholder="Search by name, email, country…"
+      filters={["Status", "KYC", "Country", "Risk", "Date"]}
+      tabs={["All", "Pending", "Reviewing", "Approved", "Rejected"]}
+      order={{ column: "submitted_at", ascending: false }}
+      kpis={[
+        { label: "Pending", icon: <Clock className="size-4" />, tone: "warning", filter: [{ column: "status", value: "pending" }] },
+        { label: "Reviewing", icon: <ClipboardList className="size-4" />, tone: "primary", filter: [{ column: "status", value: "reviewing" }] },
+        { label: "Approved", icon: <ShieldCheck className="size-4" />, tone: "success", filter: [{ column: "status", value: "approved" }] },
+        { label: "Rejected", icon: <ShieldX className="size-4" />, tone: "destructive", filter: [{ column: "status", value: "rejected" }] },
+        { label: "KYC Verified", filter: [{ column: "kyc_status", value: "verified" }] },
+        { label: "Total", icon: <UserPlus className="size-4" /> },
+      ]}
+      columns={[
+        { key: "app", label: "Applicant" },
+        { key: "country", label: "Country" },
+        { key: "category", label: "Category" },
+        { key: "kyc", label: "KYC" },
+        { key: "risk", label: "Risk", align: "right" },
+        { key: "submitted", label: "Submitted" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(a) => (
+        <Row id={a.id}>
+          <Cell><div className="font-medium">{a.applicant_name}</div><div className="text-[11px] text-muted-foreground">{a.email}</div></Cell>
+          <Cell>{a.country ?? "—"}</Cell>
+          <Cell>{a.category ?? "—"}</Cell>
+          <Cell><StatusCell value={a.kyc_status} /></Cell>
+          <Cell align="right" className="tabular-nums">{a.risk_score}</Cell>
+          <Cell>{fmtDate(a.submitted_at)}</Cell>
+          <Cell><StatusCell value={a.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={UserPlus}
+      emptyTitle="No applications yet"
+      emptyDescription="New affiliate applications appear here with KYC, risk score, and approval workflow."
+      primaryActionLabel="New Application"
+    />
+  ),
 });
-
-function ApplicationsWall() {
-  return (
-    <>
-      <PageHeader
-        title="Affiliate Applications"
-        description="Registration, KYC, document verification, agreements, risk assessment and approval workflow."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Applications" }]}
-        actions={
-          <>
-            <Button variant="outline" size="sm">Approval Rules</Button>
-            <Button size="sm">New Application</Button>
-          </>
-        }
-      />
-      <Tabs items={["All", "Pending Review", "KYC In Progress", "Awaiting Agreement", "Approved", "Rejected", "Audit Timeline"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Total" value="0" icon={<ClipboardList className="size-4" />} />
-          <KpiCard label="Pending" value="0" icon={<Clock className="size-4" />} tone="warning" />
-          <KpiCard label="KYC Verified" value="0" icon={<FileCheck2 className="size-4" />} tone="success" />
-          <KpiCard label="Approved" value="0" icon={<BadgeCheck className="size-4" />} tone="primary" />
-          <KpiCard label="Risk Flagged" value="0" icon={<ShieldAlert className="size-4" />} tone="destructive" />
-          <KpiCard label="Rejected" value="0" icon={<XCircle className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search applicants by name, email, country…" filters={["Stage", "KYC Status", "Country", "Risk", "Submitted"]} />
-        <DataTableShell
-          columns={[
-            { key: "applicant", label: "Applicant" },
-            { key: "country", label: "Country" },
-            { key: "stage", label: "Stage" },
-            { key: "kyc", label: "KYC" },
-            { key: "risk", label: "Risk" },
-            { key: "submitted", label: "Submitted" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={ClipboardList}
-          emptyTitle="No applications yet"
-          emptyDescription="New affiliate applications appear here for review, KYC, and approval."
-          emptyAction={{ label: "Invite Applicants" }}
-        />
-      </WallShell>
-    </>
-  );
-}

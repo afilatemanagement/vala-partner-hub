@@ -1,54 +1,45 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Package, Sparkles, Tag, TrendingUp, Star, Layers } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { Package, Image as ImageIcon } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Asset = { id: string; name: string; kind: string; downloads: number; status: string; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/products")({
   head: () => ({ meta: [{ title: "Products — Affiliate Manager" }] }),
-  component: ProductsWall,
+  component: () => (
+    <EntityWall<Asset>
+      title="Product Promotion"
+      description="Marketplace products, featured products, pricing, discount and SEO promotion."
+      crumbLabel="Products"
+      table="marketing_assets"
+      searchColumns={["name"]}
+      searchPlaceholder="Search products…"
+      filters={["Featured", "Campaign", "Status"]}
+      tabs={["All", "Featured", "Campaign", "Homepage"]}
+      kpis={[
+        { label: "Promoted", icon: <Package className="size-4" />, tone: "primary" },
+        { label: "With Creative", icon: <ImageIcon className="size-4" />, filter: [{ column: "kind", value: "creative" }] },
+      ]}
+      columns={[
+        { key: "name", label: "Product / Asset" },
+        { key: "kind", label: "Kind" },
+        { key: "dl", label: "Downloads", align: "right" },
+        { key: "created", label: "Created" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(a) => (
+        <Row id={a.id}>
+          <Cell className="font-medium">{a.name}</Cell>
+          <Cell className="uppercase text-[11px]">{a.kind}</Cell>
+          <Cell align="right" className="tabular-nums">{a.downloads.toLocaleString()}</Cell>
+          <Cell>{fmtDate(a.created_at)}</Cell>
+          <Cell><StatusCell value={a.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={Package}
+      emptyTitle="No promoted products"
+      emptyDescription="Feature products in campaigns, homepage promotions or the affiliate marketplace."
+      primaryActionLabel="Promote Product"
+    />
+  ),
 });
-
-function ProductsWall() {
-  return (
-    <>
-      <PageHeader
-        title="Product Promotion"
-        description="Marketplace products, featured products, campaign products, pricing, discount rules and SEO."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Products" }]}
-        actions={<><Button variant="outline" size="sm">Discount Rules</Button><Button size="sm">Promote Product</Button></>}
-      />
-      <Tabs items={["All Products", "Featured", "Campaign", "Pricing", "Discounts", "SEO", "Homepage"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Promoted Products" value="0" icon={<Package className="size-4" />} tone="primary" />
-          <KpiCard label="Featured" value="0" icon={<Star className="size-4" />} />
-          <KpiCard label="Campaign Linked" value="0" icon={<Sparkles className="size-4" />} />
-          <KpiCard label="Active Discounts" value="0" icon={<Tag className="size-4" />} tone="warning" />
-          <KpiCard label="Categories" value="0" icon={<Layers className="size-4" />} />
-          <KpiCard label="Revenue 30d" value="—" icon={<TrendingUp className="size-4" />} tone="success" />
-        </KpiGrid>
-        <FilterBar placeholder="Search products…" filters={["Category", "Status", "Campaign", "Price", "Discount"]} />
-        <DataTableShell
-          columns={[
-            { key: "product", label: "Product" },
-            { key: "category", label: "Category" },
-            { key: "price", label: "Price", align: "right" },
-            { key: "discount", label: "Discount", align: "right" },
-            { key: "campaign", label: "Campaign" },
-            { key: "sales", label: "Sales 30d", align: "right" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={Package}
-          emptyTitle="No products linked"
-          emptyDescription="Link marketplace products to promote them through affiliates and campaigns."
-          emptyAction={{ label: "Add Product" }}
-        />
-      </WallShell>
-    </>
-  );
-}

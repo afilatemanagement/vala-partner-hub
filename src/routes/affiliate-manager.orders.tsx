@@ -1,53 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Package2, Truck, CheckCircle2, XCircle, Clock, Receipt } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { ShoppingCart, CheckCircle2, Clock, XCircle } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtMoney, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Order = { id: string; customer_email: string; amount_cents: number; currency: string; status: string; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/orders")({
   head: () => ({ meta: [{ title: "Orders — Affiliate Manager" }] }),
-  component: OrdersWall,
+  component: () => (
+    <EntityWall<Order>
+      title="Orders"
+      description="Every affiliate-attributed order with invoice, payment and refund lifecycle."
+      crumbLabel="Orders"
+      table="orders"
+      searchColumns={["customer_email"]}
+      searchPlaceholder="Search orders by customer email…"
+      filters={["Status", "Affiliate", "Product", "Date"]}
+      tabs={["All", "Pending", "Completed", "Refunded", "Cancelled"]}
+      kpis={[
+        { label: "Total", icon: <ShoppingCart className="size-4" />, tone: "primary" },
+        { label: "Completed", icon: <CheckCircle2 className="size-4" />, tone: "success", filter: [{ column: "status", value: "completed" }] },
+        { label: "Pending", icon: <Clock className="size-4" />, tone: "warning", filter: [{ column: "status", value: "pending" }] },
+        { label: "Refunded", icon: <XCircle className="size-4" />, tone: "destructive", filter: [{ column: "status", value: "refunded" }] },
+      ]}
+      columns={[
+        { key: "cust", label: "Customer" },
+        { key: "amount", label: "Amount", align: "right" },
+        { key: "date", label: "Date" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(o) => (
+        <Row id={o.id}>
+          <Cell>{o.customer_email}</Cell>
+          <Cell align="right" className="tabular-nums">{fmtMoney(o.amount_cents)}</Cell>
+          <Cell>{fmtDate(o.created_at)}</Cell>
+          <Cell><StatusCell value={o.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={ShoppingCart}
+      emptyTitle="No orders yet"
+      emptyDescription="Orders attributed to affiliates appear here with invoice, payment and refund status."
+    />
+  ),
 });
-
-function OrdersWall() {
-  return (
-    <>
-      <PageHeader
-        title="Orders"
-        description="All orders tied to affiliate-driven sales with fulfillment and invoicing status."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Orders" }]}
-        actions={<><Button variant="outline" size="sm">Invoices</Button><Button size="sm">New Order</Button></>}
-      />
-      <Tabs items={["All", "Pending", "Processing", "Fulfilled", "Cancelled", "Disputed", "Timeline"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Total Orders" value="0" icon={<Package2 className="size-4" />} tone="primary" />
-          <KpiCard label="Processing" value="0" icon={<Clock className="size-4" />} tone="warning" />
-          <KpiCard label="Fulfilled" value="0" icon={<CheckCircle2 className="size-4" />} tone="success" />
-          <KpiCard label="Shipped" value="0" icon={<Truck className="size-4" />} />
-          <KpiCard label="Cancelled" value="0" icon={<XCircle className="size-4" />} tone="destructive" />
-          <KpiCard label="Invoices Issued" value="0" icon={<Receipt className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search orders…" filters={["Status", "Affiliate", "Customer", "Product", "Date"]} />
-        <DataTableShell
-          columns={[
-            { key: "order", label: "Order #" },
-            { key: "customer", label: "Customer" },
-            { key: "affiliate", label: "Affiliate" },
-            { key: "items", label: "Items", align: "right" },
-            { key: "total", label: "Total", align: "right" },
-            { key: "date", label: "Date" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={Package2}
-          emptyTitle="No orders yet"
-          emptyDescription="Orders attributed to affiliates will appear here with fulfillment timeline."
-        />
-      </WallShell>
-    </>
-  );
-}

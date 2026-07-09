@@ -1,53 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Users, ShoppingBag, Repeat, KeyRound, LifeBuoy, TrendingUp } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { UsersRound, ShoppingCart } from "lucide-react";
+import { EntityWall, Row, Cell, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Customer = { id: string; email: string; affiliate_id: string | null; first_order_at: string | null; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/customers")({
   head: () => ({ meta: [{ title: "Customers — Affiliate Manager" }] }),
-  component: CustomersWall,
+  component: () => (
+    <EntityWall<Customer>
+      title="Customer Directory"
+      description="Every customer acquired by every affiliate with purchase history and licenses."
+      crumbLabel="Customers"
+      table="customers"
+      searchColumns={["email"]}
+      searchPlaceholder="Search customers by email…"
+      filters={["Affiliate", "Product", "Date"]}
+      tabs={["All", "New", "Repeat", "Subscribers", "Churned"]}
+      kpis={[
+        { label: "Total", icon: <UsersRound className="size-4" />, tone: "primary" },
+        { label: "With Orders", icon: <ShoppingCart className="size-4" />, tone: "success" },
+      ]}
+      columns={[
+        { key: "email", label: "Customer" },
+        { key: "aff", label: "Affiliate" },
+        { key: "first", label: "First Order" },
+        { key: "created", label: "Created" },
+      ]}
+      renderRow={(c) => (
+        <Row id={c.id}>
+          <Cell>{c.email}</Cell>
+          <Cell className="font-mono text-[11px] text-muted-foreground">{c.affiliate_id?.slice(0, 8) ?? "—"}</Cell>
+          <Cell>{fmtDate(c.first_order_at)}</Cell>
+          <Cell>{fmtDate(c.created_at)}</Cell>
+        </Row>
+      )}
+      emptyIcon={UsersRound}
+      emptyTitle="No customers yet"
+      emptyDescription="Customers acquired via affiliate links, codes and campaigns appear here."
+      primaryActionLabel="Add Customer"
+    />
+  ),
 });
-
-function CustomersWall() {
-  return (
-    <>
-      <PageHeader
-        title="Customer Management"
-        description="Customers acquired through affiliates with orders, subscriptions, licenses and support."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Customers" }]}
-        actions={<><Button variant="outline" size="sm">Segments</Button><Button size="sm">Add Customer</Button></>}
-      />
-      <Tabs items={["All", "Active", "Subscribers", "Licensed", "Churned", "Timeline", "Analytics"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Total Customers" value="0" icon={<Users className="size-4" />} tone="primary" />
-          <KpiCard label="Active" value="0" icon={<TrendingUp className="size-4" />} tone="success" />
-          <KpiCard label="Subscriptions" value="0" icon={<Repeat className="size-4" />} />
-          <KpiCard label="Licenses" value="0" icon={<KeyRound className="size-4" />} />
-          <KpiCard label="Orders 30d" value="0" icon={<ShoppingBag className="size-4" />} />
-          <KpiCard label="Support Tickets" value="0" icon={<LifeBuoy className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search customers…" filters={["Status", "Affiliate", "Plan", "Country", "Spend"]} />
-        <DataTableShell
-          columns={[
-            { key: "customer", label: "Customer" },
-            { key: "affiliate", label: "Referred By" },
-            { key: "orders", label: "Orders", align: "right" },
-            { key: "subs", label: "Subscriptions", align: "right" },
-            { key: "spend", label: "Lifetime Spend", align: "right" },
-            { key: "country", label: "Country" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={Users}
-          emptyTitle="No customers yet"
-          emptyDescription="Customers acquired by your affiliates will appear here with full purchase history."
-        />
-      </WallShell>
-    </>
-  );
-}
