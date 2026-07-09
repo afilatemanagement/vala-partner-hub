@@ -46,8 +46,13 @@ export function useEntityList<T = Record<string, unknown>>(opts: EntityListOptio
     queryKey: ["entity", table, { select, search, filters, order, page, pageSize }],
     staleTime: 15_000,
     queryFn: async () => {
-      let q = supabase
-        .from(table as never)
+      const client = supabase as unknown as {
+        from: (t: string) => {
+          select: (s: string, o?: { count?: "exact"; head?: boolean }) => any;
+        };
+      };
+      let q = client
+        .from(table)
         .select(select, { count: "exact" })
         .order(order.column, { ascending: !!order.ascending })
         .range((page - 1) * pageSize, page * pageSize - 1);
@@ -83,11 +88,13 @@ export function useEntityCount(table: string, filters: EntityFilter[] = []) {
     queryKey: ["entity-count", table, filters],
     staleTime: 15_000,
     queryFn: async () => {
-      let q = supabase.from(table as never).select("*", { count: "exact", head: true });
+      const client = supabase as unknown as {
+        from: (t: string) => { select: (s: string, o: { count: "exact"; head: true }) => any };
+      };
+      let q = client.from(table).select("*", { count: "exact", head: true });
       for (const f of filters) {
         if (f.value == null || f.value === "" || f.value === "all") continue;
         const op = f.op ?? "eq";
-        // @ts-expect-error dynamic filter dispatch
         q = q[op](f.column, f.value);
       }
       const { count, error } = await q;
