@@ -1,54 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Banknote, Coins, Repeat, Clock, ScrollText, SlidersHorizontal } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { Percent, CheckCircle2, Clock, XCircle } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtMoney, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Commission = { id: string; affiliate_id: string; amount_cents: number; currency: string; status: string; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/commissions")({
   head: () => ({ meta: [{ title: "Commissions — Affiliate Manager" }] }),
-  component: CommissionsWall,
+  component: () => (
+    <EntityWall<Commission>
+      title="Commissions"
+      description="Pending, approved and paid commissions across every plan and rule."
+      crumbLabel="Commissions"
+      table="commissions"
+      searchColumns={[]}
+      searchPlaceholder="Search commissions…"
+      filters={["Status", "Affiliate", "Campaign", "Date"]}
+      tabs={["All", "Pending", "Approved", "Paid", "Rejected"]}
+      kpis={[
+        { label: "Total", icon: <Percent className="size-4" />, tone: "primary" },
+        { label: "Pending", icon: <Clock className="size-4" />, tone: "warning", filter: [{ column: "status", value: "pending" }] },
+        { label: "Approved", icon: <CheckCircle2 className="size-4" />, tone: "success", filter: [{ column: "status", value: "approved" }] },
+        { label: "Paid", tone: "success", filter: [{ column: "status", value: "paid" }] },
+        { label: "Rejected", icon: <XCircle className="size-4" />, tone: "destructive", filter: [{ column: "status", value: "rejected" }] },
+      ]}
+      columns={[
+        { key: "aff", label: "Affiliate" },
+        { key: "amt", label: "Amount", align: "right" },
+        { key: "cur", label: "Currency" },
+        { key: "date", label: "Date" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(c) => (
+        <Row id={c.id}>
+          <Cell className="font-mono text-[11px] text-muted-foreground">{c.affiliate_id.slice(0, 8)}</Cell>
+          <Cell align="right" className="tabular-nums">{fmtMoney(c.amount_cents)}</Cell>
+          <Cell>{c.currency}</Cell>
+          <Cell>{fmtDate(c.created_at)}</Cell>
+          <Cell><StatusCell value={c.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={Percent}
+      emptyTitle="No commissions yet"
+      emptyDescription="Approved and paid commissions appear here across every plan and rule."
+    />
+  ),
 });
-
-function CommissionsWall() {
-  return (
-    <>
-      <PageHeader
-        title="Commissions"
-        description="Commission plans, rules, pending, paid, recurring, adjustments and reports."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Commissions" }]}
-        actions={<><Button variant="outline" size="sm" className="gap-1.5"><SlidersHorizontal className="size-3.5" /> Plans</Button><Button size="sm">New Rule</Button></>}
-      />
-      <Tabs items={["Overview", "Plans", "Rules", "Pending", "Paid", "Recurring", "Adjustments", "History", "Reports"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Active Plans" value="0" icon={<ScrollText className="size-4" />} tone="primary" />
-          <KpiCard label="Rules" value="0" icon={<SlidersHorizontal className="size-4" />} />
-          <KpiCard label="Pending" value="—" icon={<Clock className="size-4" />} tone="warning" />
-          <KpiCard label="Approved" value="—" icon={<Banknote className="size-4" />} tone="success" />
-          <KpiCard label="Paid 30d" value="—" icon={<Coins className="size-4" />} />
-          <KpiCard label="Recurring MRR" value="—" icon={<Repeat className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search commission entries…" filters={["Status", "Affiliate", "Plan", "Period", "Order"]} />
-        <DataTableShell
-          columns={[
-            { key: "entry", label: "Entry" },
-            { key: "affiliate", label: "Affiliate" },
-            { key: "order", label: "Order" },
-            { key: "plan", label: "Plan" },
-            { key: "amount", label: "Amount", align: "right" },
-            { key: "period", label: "Period" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={Banknote}
-          emptyTitle="No commission entries"
-          emptyDescription="Commissions accrue here per order, subscription renewal or adjustment."
-          emptyAction={{ label: "Create Plan" }}
-        />
-      </WallShell>
-    </>
-  );
-}

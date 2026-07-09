@@ -1,54 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { UserCheck, PhoneCall, CalendarClock, TrendingUp, Filter, GitMerge } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { UserSearch, TrendingUp } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Lead = { id: string; email: string; status: string; affiliate_id: string | null; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/leads")({
   head: () => ({ meta: [{ title: "Leads — Affiliate Manager" }] }),
-  component: LeadsWall,
+  component: () => (
+    <EntityWall<Lead>
+      title="Lead Management"
+      description="Every lead sourced by every affiliate with pipeline, follow-up and conversion."
+      crumbLabel="Leads"
+      table="leads"
+      searchColumns={["email"]}
+      searchPlaceholder="Search leads by email…"
+      filters={["Status", "Source", "Affiliate", "Date"]}
+      tabs={["All", "New", "Contacted", "Qualified", "Converted", "Lost"]}
+      kpis={[
+        { label: "Total Leads", icon: <UserSearch className="size-4" />, tone: "primary" },
+        { label: "New", tone: "warning", filter: [{ column: "status", value: "new" }] },
+        { label: "Converted", icon: <TrendingUp className="size-4" />, tone: "success", filter: [{ column: "status", value: "converted" }] },
+      ]}
+      columns={[
+        { key: "email", label: "Lead" },
+        { key: "aff", label: "Affiliate" },
+        { key: "created", label: "Created" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(l) => (
+        <Row id={l.id}>
+          <Cell>{l.email}</Cell>
+          <Cell className="font-mono text-[11px] text-muted-foreground">{l.affiliate_id?.slice(0, 8) ?? "—"}</Cell>
+          <Cell>{fmtDate(l.created_at)}</Cell>
+          <Cell><StatusCell value={l.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={UserSearch}
+      emptyTitle="No leads yet"
+      emptyDescription="Leads captured by affiliates appear here with pipeline, follow-up and conversion."
+      primaryActionLabel="Add Lead"
+    />
+  ),
 });
-
-function LeadsWall() {
-  return (
-    <>
-      <PageHeader
-        title="Lead Management"
-        description="Lead sources, assignment, follow-ups, meetings, calls, pipeline and conversion."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Leads" }]}
-        actions={<><Button variant="outline" size="sm">Pipeline View</Button><Button size="sm">Add Lead</Button></>}
-      />
-      <Tabs items={["All", "New", "Contacted", "Qualified", "Meeting", "Won", "Lost", "Sources"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Total Leads" value="0" icon={<UserCheck className="size-4" />} tone="primary" />
-          <KpiCard label="New 7d" value="0" icon={<TrendingUp className="size-4" />} />
-          <KpiCard label="Follow-ups Due" value="0" icon={<PhoneCall className="size-4" />} tone="warning" />
-          <KpiCard label="Meetings Scheduled" value="0" icon={<CalendarClock className="size-4" />} />
-          <KpiCard label="Converted" value="0" icon={<GitMerge className="size-4" />} tone="success" />
-          <KpiCard label="Conversion Rate" value="—" icon={<Filter className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search leads…" filters={["Stage", "Source", "Owner", "Affiliate", "Country", "Date"]} />
-        <DataTableShell
-          columns={[
-            { key: "lead", label: "Lead" },
-            { key: "source", label: "Source" },
-            { key: "affiliate", label: "Referred By" },
-            { key: "stage", label: "Stage" },
-            { key: "owner", label: "Owner" },
-            { key: "next", label: "Next Step" },
-            { key: "updated", label: "Updated" },
-          ]}
-          emptyIcon={UserCheck}
-          emptyTitle="No leads yet"
-          emptyDescription="Inbound leads from affiliates, campaigns and links will appear in the pipeline here."
-          emptyAction={{ label: "Add Lead" }}
-        />
-      </WallShell>
-    </>
-  );
-}

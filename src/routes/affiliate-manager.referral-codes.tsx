@@ -1,54 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Ticket, BadgePercent, Calendar, TrendingUp } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell } from "@/components/affiliate/WallShell";
-import { FilterBar } from "@/components/affiliate/FilterBar";
-import { DataTableShell } from "@/components/affiliate/DataTableShell";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { Ticket, CheckCircle2, XCircle } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell, fmtDate } from "@/components/affiliate/EntityWall";
+
+type Code = { id: string; code: string; status: string; uses_count: number; expires_at: string | null; created_at: string };
 
 export const Route = createFileRoute("/affiliate-manager/referral-codes")({
   head: () => ({ meta: [{ title: "Referral Codes — Affiliate Manager" }] }),
-  component: CodesWall,
+  component: () => (
+    <EntityWall<Code>
+      title="Referral Codes"
+      description="Coupon, referral and campaign codes with usage and expiry."
+      crumbLabel="Referral Codes"
+      table="referral_codes"
+      searchColumns={["code"]}
+      searchPlaceholder="Search codes…"
+      filters={["Status", "Campaign", "Affiliate", "Expiry"]}
+      tabs={["All", "Active", "Expired", "Disabled"]}
+      kpis={[
+        { label: "Total Codes", icon: <Ticket className="size-4" />, tone: "primary" },
+        { label: "Active", icon: <CheckCircle2 className="size-4" />, tone: "success", filter: [{ column: "status", value: "active" }] },
+        { label: "Expired", icon: <XCircle className="size-4" />, tone: "destructive", filter: [{ column: "status", value: "expired" }] },
+      ]}
+      columns={[
+        { key: "code", label: "Code" },
+        { key: "uses", label: "Uses", align: "right" },
+        { key: "expires", label: "Expires" },
+        { key: "created", label: "Created" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(c) => (
+        <Row id={c.id}>
+          <Cell className="font-mono">{c.code}</Cell>
+          <Cell align="right" className="tabular-nums">{c.uses_count.toLocaleString()}</Cell>
+          <Cell>{fmtDate(c.expires_at)}</Cell>
+          <Cell>{fmtDate(c.created_at)}</Cell>
+          <Cell><StatusCell value={c.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={Ticket}
+      emptyTitle="No codes generated"
+      emptyDescription="Generate codes in bulk from campaigns or issue custom codes per affiliate."
+      primaryActionLabel="Generate Codes"
+    />
+  ),
 });
-
-function CodesWall() {
-  return (
-    <>
-      <PageHeader
-        title="Referral Codes"
-        description="Coupon codes, referral codes and campaign codes with usage, expiry and analytics."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Referral Codes" }]}
-        actions={<><Button variant="outline" size="sm">Bulk Generate</Button><Button size="sm">New Code</Button></>}
-      />
-      <Tabs items={["All Codes", "Referral", "Coupon", "Campaign", "Expired", "Disabled"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Total Codes" value="0" icon={<Ticket className="size-4" />} tone="primary" />
-          <KpiCard label="Active" value="0" icon={<BadgePercent className="size-4" />} tone="success" />
-          <KpiCard label="Redemptions 30d" value="0" icon={<TrendingUp className="size-4" />} />
-          <KpiCard label="Expiring Soon" value="0" icon={<Calendar className="size-4" />} tone="warning" />
-          <KpiCard label="Expired" value="0" icon={<Calendar className="size-4" />} />
-          <KpiCard label="Conversion Rate" value="—" icon={<TrendingUp className="size-4" />} />
-        </KpiGrid>
-        <FilterBar placeholder="Search codes…" filters={["Type", "Affiliate", "Campaign", "Status", "Expiry"]} />
-        <DataTableShell
-          columns={[
-            { key: "code", label: "Code" },
-            { key: "type", label: "Type" },
-            { key: "affiliate", label: "Owner" },
-            { key: "campaign", label: "Campaign" },
-            { key: "usage", label: "Usage", align: "right" },
-            { key: "expiry", label: "Expiry" },
-            { key: "status", label: "Status" },
-          ]}
-          emptyIcon={Ticket}
-          emptyTitle="No referral codes"
-          emptyDescription="Generate referral, coupon and campaign codes individually or in bulk."
-          emptyAction={{ label: "Generate Codes" }}
-        />
-      </WallShell>
-    </>
-  );
-}

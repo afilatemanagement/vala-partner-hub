@@ -1,48 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Network, GitBranch, Layers, TrendingUp } from "lucide-react";
-import { PageHeader } from "@/components/affiliate/PageHeader";
-import { KpiCard, KpiGrid } from "@/components/affiliate/KpiCard";
-import { WallShell, TwoCol } from "@/components/affiliate/WallShell";
-import { SectionCard } from "@/components/affiliate/StatusBadge";
-import { ChartEmpty, EmptyState } from "@/components/affiliate/EmptyState";
-import { Tabs } from "@/components/affiliate/StatusBadge";
-import { Button } from "@/components/ui/button";
+import { Network, TrendingUp } from "lucide-react";
+import { EntityWall, Row, Cell, StatusCell } from "@/components/affiliate/EntityWall";
+
+type Affiliate = { id: string; display_name: string; code: string | null; country: string | null; status: string; health_score: number | null };
 
 export const Route = createFileRoute("/affiliate-manager/referral-network")({
   head: () => ({ meta: [{ title: "Referral Network — Affiliate Manager" }] }),
-  component: ReferralNetworkWall,
+  component: () => (
+    <EntityWall<Affiliate>
+      title="Referral Network"
+      description="Multi-level referral tree with parent/child structure, growth and network analytics."
+      crumbLabel="Referral Network"
+      table="affiliates"
+      searchColumns={["display_name", "code", "country"]}
+      searchPlaceholder="Search network…"
+      filters={["Level", "Country", "Status"]}
+      tabs={["All Levels", "Level 1", "Level 2", "Top Recruiters"]}
+      kpis={[
+        { label: "Network Size", icon: <Network className="size-4" />, tone: "primary" },
+        { label: "Active", icon: <TrendingUp className="size-4" />, tone: "success", filter: [{ column: "status", value: "verified" }] },
+      ]}
+      columns={[
+        { key: "name", label: "Affiliate" },
+        { key: "code", label: "Code" },
+        { key: "country", label: "Country" },
+        { key: "health", label: "Health", align: "right" },
+        { key: "status", label: "Status" },
+      ]}
+      renderRow={(a) => (
+        <Row id={a.id}>
+          <Cell className="font-medium">{a.display_name}</Cell>
+          <Cell className="font-mono text-[12px]">{a.code ?? "—"}</Cell>
+          <Cell>{a.country ?? "—"}</Cell>
+          <Cell align="right" className="tabular-nums">{a.health_score ?? "—"}</Cell>
+          <Cell><StatusCell value={a.status} /></Cell>
+        </Row>
+      )}
+      emptyIcon={Network}
+      emptyTitle="No network yet"
+      emptyDescription="Multi-level referral tree with parent/child structure appears here as the network grows."
+    />
+  ),
 });
-
-function ReferralNetworkWall() {
-  return (
-    <>
-      <PageHeader
-        title="Referral Network"
-        description="Multi-level referral tree, parent/child relationships, commission levels, growth and expansion."
-        crumbs={[{ label: "Affiliate Manager" }, { label: "Referral Network" }]}
-        actions={<><Button variant="outline" size="sm">Level Rules</Button><Button size="sm">Configure Network</Button></>}
-      />
-      <Tabs items={["Network Tree", "Levels", "Commission Levels", "Growth", "Expansion", "Analytics"]} />
-      <WallShell>
-        <KpiGrid>
-          <KpiCard label="Network Nodes" value="0" icon={<Network className="size-4" />} tone="primary" />
-          <KpiCard label="Active Levels" value="0" icon={<Layers className="size-4" />} />
-          <KpiCard label="Top-Level Parents" value="0" icon={<GitBranch className="size-4" />} />
-          <KpiCard label="Avg Depth" value="—" icon={<Layers className="size-4" />} />
-          <KpiCard label="Network Growth 30d" value="0" icon={<TrendingUp className="size-4" />} tone="success" />
-          <KpiCard label="Commission Levels" value="0" icon={<Layers className="size-4" />} />
-        </KpiGrid>
-        <TwoCol>
-          <div className="lg:col-span-2">
-            <SectionCard title="Referral Tree">
-              <ChartEmpty label="Interactive parent → child referral tree appears once affiliates begin referring" />
-            </SectionCard>
-          </div>
-          <SectionCard title="Network Health" padded={false}>
-            <EmptyState icon={Network} title="No network activity" description="Network depth, fan-out and commission flow will surface here." />
-          </SectionCard>
-        </TwoCol>
-      </WallShell>
-    </>
-  );
-}
