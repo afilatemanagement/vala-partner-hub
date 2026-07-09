@@ -55,6 +55,122 @@ export type Database = {
           },
         ]
       }
+      affiliate_applications: {
+        Row: {
+          agreement_signed: boolean
+          applicant_name: string
+          audience_size: number | null
+          category: string | null
+          country: string | null
+          created_at: string
+          decided_at: string | null
+          email: string
+          id: string
+          kyc_status: string
+          motivation: string | null
+          phone: string | null
+          review_notes: string | null
+          reviewer_id: string | null
+          risk_score: number
+          status: string
+          submitted_at: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          agreement_signed?: boolean
+          applicant_name: string
+          audience_size?: number | null
+          category?: string | null
+          country?: string | null
+          created_at?: string
+          decided_at?: string | null
+          email: string
+          id?: string
+          kyc_status?: string
+          motivation?: string | null
+          phone?: string | null
+          review_notes?: string | null
+          reviewer_id?: string | null
+          risk_score?: number
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          agreement_signed?: boolean
+          applicant_name?: string
+          audience_size?: number | null
+          category?: string | null
+          country?: string | null
+          created_at?: string
+          decided_at?: string | null
+          email?: string
+          id?: string
+          kyc_status?: string
+          motivation?: string | null
+          phone?: string | null
+          review_notes?: string | null
+          reviewer_id?: string | null
+          risk_score?: number
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      affiliate_documents: {
+        Row: {
+          affiliate_id: string | null
+          created_at: string
+          doc_type: string
+          expires_at: string | null
+          file_url: string | null
+          id: string
+          signed: boolean
+          signed_at: string | null
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          affiliate_id?: string | null
+          created_at?: string
+          doc_type: string
+          expires_at?: string | null
+          file_url?: string | null
+          id?: string
+          signed?: boolean
+          signed_at?: string | null
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          affiliate_id?: string | null
+          created_at?: string
+          doc_type?: string
+          expires_at?: string | null
+          file_url?: string | null
+          id?: string
+          signed?: boolean
+          signed_at?: string | null
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_documents_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       affiliate_links: {
         Row: {
           affiliate_id: string
@@ -148,6 +264,126 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          audience: string
+          body: string
+          created_at: string
+          created_by: string | null
+          id: string
+          pinned: boolean
+          published_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audience?: string
+          body: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          pinned?: boolean
+          published_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          pinned?: boolean
+          published_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      api_keys: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          hashed_key: string
+          id: string
+          label: string
+          last_used_at: string | null
+          prefix: string
+          revoked: boolean
+          scopes: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          hashed_key: string
+          id?: string
+          label: string
+          last_used_at?: string | null
+          prefix: string
+          revoked?: boolean
+          scopes?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          hashed_key?: string
+          id?: string
+          label?: string
+          last_used_at?: string | null
+          prefix?: string
+          revoked?: boolean
+          scopes?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      banners: {
+        Row: {
+          active: boolean
+          clicks: number
+          created_at: string
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          impressions: number
+          link_url: string | null
+          placement: string
+          starts_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          clicks?: number
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          link_url?: string | null
+          placement?: string
+          starts_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          clicks?: number
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          impressions?: number
+          link_url?: string | null
+          placement?: string
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           budget_cents: number
@@ -223,6 +459,132 @@ export type Database = {
           },
         ]
       }
+      communication_messages: {
+        Row: {
+          attachments: Json | null
+          body: string
+          created_at: string
+          id: string
+          sender: string
+          sender_id: string | null
+          thread_id: string
+        }
+        Insert: {
+          attachments?: Json | null
+          body: string
+          created_at?: string
+          id?: string
+          sender: string
+          sender_id?: string | null
+          thread_id: string
+        }
+        Update: {
+          attachments?: Json | null
+          body?: string
+          created_at?: string
+          id?: string
+          sender?: string
+          sender_id?: string | null
+          thread_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "communication_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "communication_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      communication_threads: {
+        Row: {
+          affiliate_id: string | null
+          channel: string
+          created_at: string
+          id: string
+          last_message_at: string
+          status: string
+          subject: string | null
+          unread_count: number
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id?: string | null
+          channel?: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          status?: string
+          subject?: string | null
+          unread_count?: number
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string | null
+          channel?: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          status?: string
+          subject?: string | null
+          unread_count?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "communication_threads_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compliance_alerts: {
+        Row: {
+          affiliate_id: string | null
+          category: string
+          created_at: string
+          id: string
+          message: string
+          resolved_at: string | null
+          severity: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id?: string | null
+          category: string
+          created_at?: string
+          id?: string
+          message: string
+          resolved_at?: string | null
+          severity?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          message?: string
+          resolved_at?: string | null
+          severity?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_alerts_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           affiliate_id: string | null
@@ -251,6 +613,90 @@ export type Database = {
             columns: ["affiliate_id"]
             isOneToOne: false
             referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integrations: {
+        Row: {
+          config: Json
+          created_at: string
+          id: string
+          last_sync_at: string | null
+          provider: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          id?: string
+          last_sync_at?: string | null
+          provider: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          id?: string
+          last_sync_at?: string | null
+          provider?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      kyc_documents: {
+        Row: {
+          affiliate_id: string | null
+          application_id: string | null
+          created_at: string
+          doc_type: string
+          file_url: string | null
+          id: string
+          notes: string | null
+          reviewer_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id?: string | null
+          application_id?: string | null
+          created_at?: string
+          doc_type: string
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          reviewer_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string | null
+          application_id?: string | null
+          created_at?: string
+          doc_type?: string
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          reviewer_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kyc_documents_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kyc_documents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "affiliate_applications"
             referencedColumns: ["id"]
           },
         ]
@@ -286,6 +732,199 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      marketing_assets: {
+        Row: {
+          campaign_id: string | null
+          created_at: string
+          downloads: number
+          file_url: string | null
+          format: string | null
+          id: string
+          kind: string
+          name: string
+          preview_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string
+          downloads?: number
+          file_url?: string | null
+          format?: string | null
+          id?: string
+          kind: string
+          name: string
+          preview_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string
+          downloads?: number
+          file_url?: string | null
+          format?: string | null
+          id?: string
+          kind?: string
+          name?: string
+          preview_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_assets_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketing_broadcasts: {
+        Row: {
+          audience: string
+          body: string
+          channel: string
+          clicked_count: number
+          created_at: string
+          created_by: string | null
+          delivered_count: number
+          id: string
+          opened_count: number
+          recipients_count: number
+          scheduled_at: string | null
+          segment: Json | null
+          sent_at: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          audience?: string
+          body: string
+          channel: string
+          clicked_count?: number
+          created_at?: string
+          created_by?: string | null
+          delivered_count?: number
+          id?: string
+          opened_count?: number
+          recipients_count?: number
+          scheduled_at?: string | null
+          segment?: Json | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          channel?: string
+          clicked_count?: number
+          created_at?: string
+          created_by?: string | null
+          delivered_count?: number
+          id?: string
+          opened_count?: number
+          recipients_count?: number
+          scheduled_at?: string | null
+          segment?: Json | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      meetings: {
+        Row: {
+          affiliate_id: string | null
+          created_at: string
+          created_by: string | null
+          duration_minutes: number
+          id: string
+          join_url: string | null
+          notes: string | null
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_minutes?: number
+          id?: string
+          join_url?: string | null
+          notes?: string | null
+          starts_at: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_minutes?: number
+          id?: string
+          join_url?: string | null
+          notes?: string | null
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meetings_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_templates: {
+        Row: {
+          body: string
+          channel: string
+          code: string
+          created_at: string
+          enabled: boolean
+          id: string
+          subject: string | null
+          updated_at: string
+          variables: Json | null
+        }
+        Insert: {
+          body: string
+          channel: string
+          code: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          subject?: string | null
+          updated_at?: string
+          variables?: Json | null
+        }
+        Update: {
+          body?: string
+          channel?: string
+          code?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          subject?: string | null
+          updated_at?: string
+          variables?: Json | null
+        }
+        Relationships: []
       }
       orders: {
         Row: {
@@ -366,6 +1005,53 @@ export type Database = {
           },
         ]
       }
+      performance_snapshots: {
+        Row: {
+          affiliate_id: string | null
+          clicks: number
+          commission_cents: number
+          conversions: number
+          created_at: string
+          id: string
+          period: string
+          revenue_cents: number
+          sales: number
+          visitors: number
+        }
+        Insert: {
+          affiliate_id?: string | null
+          clicks?: number
+          commission_cents?: number
+          conversions?: number
+          created_at?: string
+          id?: string
+          period: string
+          revenue_cents?: number
+          sales?: number
+          visitors?: number
+        }
+        Update: {
+          affiliate_id?: string | null
+          clicks?: number
+          commission_cents?: number
+          conversions?: number
+          created_at?: string
+          id?: string
+          period?: string
+          revenue_cents?: number
+          sales?: number
+          visitors?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "performance_snapshots_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_codes: {
         Row: {
           affiliate_id: string | null
@@ -435,6 +1121,100 @@ export type Database = {
         }
         Relationships: []
       }
+      support_ticket_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          internal: boolean
+          sender: string
+          sender_id: string | null
+          ticket_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          internal?: boolean
+          sender: string
+          sender_id?: string | null
+          ticket_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          internal?: boolean
+          sender?: string
+          sender_id?: string | null
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_tickets: {
+        Row: {
+          affiliate_id: string | null
+          assigned_to: string | null
+          channel: string
+          created_at: string
+          description: string | null
+          id: string
+          priority: string
+          resolved_at: string | null
+          sla_due_at: string | null
+          status: string
+          subject: string
+          ticket_no: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id?: string | null
+          assigned_to?: string | null
+          channel?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          sla_due_at?: string | null
+          status?: string
+          subject: string
+          ticket_no?: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string | null
+          assigned_to?: string | null
+          channel?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          sla_due_at?: string | null
+          status?: string
+          subject?: string
+          ticket_no?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -487,6 +1267,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      workflow_rules: {
+        Row: {
+          actions: Json
+          conditions: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          last_run_at: string | null
+          name: string
+          run_count: number
+          trigger: string
+          updated_at: string
+        }
+        Insert: {
+          actions?: Json
+          conditions?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name: string
+          run_count?: number
+          trigger: string
+          updated_at?: string
+        }
+        Update: {
+          actions?: Json
+          conditions?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          run_count?: number
+          trigger?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {
