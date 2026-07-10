@@ -25,9 +25,11 @@ export function EmptyState({
         <p className="mt-1.5 text-sm text-muted-foreground">{description}</p>
         {(primaryAction || secondaryAction) && (
           <div className="mt-5 flex items-center justify-center gap-2">
-            {primaryAction && <Button size="sm">{primaryAction.label}</Button>}
+            {primaryAction && (
+              <Button size="sm" onClick={primaryAction.onClick}>{primaryAction.label}</Button>
+            )}
             {secondaryAction && (
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" onClick={secondaryAction.onClick}>
                 {secondaryAction.label}
               </Button>
             )}

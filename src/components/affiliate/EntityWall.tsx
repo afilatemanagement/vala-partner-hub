@@ -46,14 +46,18 @@ export type EntityWallProps<T extends Record<string, unknown>> = {
 export function EntityWall<T extends Record<string, unknown>>(p: EntityWallProps<T>) {
   const [page, setPage] = useState(1);
   const [q, setQ] = useState("");
+  const [activeTab, setActiveTab] = useState<string | undefined>(p.tabs?.[0]);
   const list = useEntityList<T>({
     table: p.table,
     select: p.select,
-    search: p.searchColumns ? { q, columns: p.searchColumns } : undefined,
+    search: p.searchColumns && p.searchColumns.length > 0 ? { q, columns: p.searchColumns } : undefined,
     order: p.order,
     page,
     pageSize: 25,
   });
+
+  const totalPages = list.data?.totalPages ?? 1;
+  const count = list.data?.count ?? 0;
 
   return (
     <>
@@ -70,53 +74,52 @@ export function EntityWall<T extends Record<string, unknown>>(p: EntityWallProps
           </>
         }
       />
-      {p.tabs && <Tabs items={p.tabs} />}
+      {p.tabs && <Tabs items={p.tabs} active={activeTab} onChange={setActiveTab} />}
       <WallShell>
         <KpiGrid>
           {p.kpis.map((k) => (
             <KpiCounter key={k.label} table={p.table} spec={k} />
           ))}
         </KpiGrid>
-        <div>
-          <FilterBar
-            placeholder={p.searchPlaceholder ?? "Search…"}
-            filters={p.filters}
-          />
-          {/* controlled search input mirror (hooks the FilterBar visually while
-              keeping the actual state in this component) */}
-          <div className="sr-only">
-            <input value={q} onChange={(e) => setQ(e.target.value)} aria-label="search-mirror" />
-          </div>
-        </div>
+        <FilterBar
+          placeholder={p.searchPlaceholder ?? "Search…"}
+          filters={p.filters}
+          value={q}
+          onChange={(v) => { setQ(v); setPage(1); }}
+        />
         <DataTableShell
           columns={p.columns}
+          isLoading={list.isLoading}
           emptyIcon={p.emptyIcon}
-          emptyTitle={list.isError ? "Failed to load" : list.isLoading ? "Loading…" : p.emptyTitle}
+          emptyTitle={list.isError ? "Failed to load" : p.emptyTitle}
           emptyDescription={
             list.isError
-              ? list.error instanceof Error ? list.error.message : "Please retry."
-              : list.isLoading
-              ? "Fetching the latest records."
-              : p.emptyDescription
+              ? (list.error instanceof Error ? list.error.message : "Please retry.")
+              : q
+                ? `No results for “${q}”. Try a different query.`
+                : p.emptyDescription
           }
-          emptyAction={p.primaryActionLabel ? { label: p.primaryActionLabel } : undefined}
+          emptyAction={
+            list.isError
+              ? { label: "Retry", onClick: () => list.refetch() }
+              : p.primaryActionLabel
+                ? { label: p.primaryActionLabel, onClick: p.onPrimaryAction }
+                : undefined
+          }
           rows={list.data?.rows.length ? list.data.rows.map(p.renderRow) : undefined}
           footer={
-            list.data
-              ? `${list.data.count.toLocaleString()} result${list.data.count === 1 ? "" : "s"} · Page ${page} of ${list.data.totalPages}`
-              : undefined
+            <>
+              <span className="tabular-nums">
+                {list.isLoading ? "Loading…" : `${count.toLocaleString()} result${count === 1 ? "" : "s"}`}
+                {!list.isLoading && count > 0 && ` · Page ${page} of ${totalPages}`}
+              </span>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" className="h-7 px-2" disabled={page <= 1} onClick={() => setPage((n) => Math.max(1, n - 1))}>Prev</Button>
+                <Button variant="ghost" size="sm" className="h-7 px-2" disabled={page >= totalPages} onClick={() => setPage((n) => n + 1)}>Next</Button>
+              </div>
+            </>
           }
         />
-        {list.data && list.data.totalPages > 1 && (
-          <div className="flex items-center justify-end gap-2">
-            <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((n) => n - 1)}>
-              Previous
-            </Button>
-            <Button variant="outline" size="sm" disabled={page >= list.data.totalPages} onClick={() => setPage((n) => n + 1)}>
-              Next
-            </Button>
-          </div>
-        )}
       </WallShell>
     </>
   );
