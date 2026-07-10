@@ -41,16 +41,32 @@ export function SectionCard({ title, action, children, padded = true }: { title?
   );
 }
 
-export function Tabs({ items, active }: { items: string[]; active?: string }) {
+export function Tabs({
+  items,
+  active,
+  onChange,
+}: {
+  items: string[];
+  active?: string;
+  onChange?: (value: string) => void;
+}) {
+  const current = active ?? items[0];
   return (
-    <div className="flex items-center gap-0 border-b border-border bg-surface px-4 lg:px-6">
+    <div
+      role="tablist"
+      className="no-scrollbar flex items-center gap-0 overflow-x-auto border-b border-border bg-surface px-4 lg:px-6"
+    >
       {items.map((it) => {
-        const isActive = (active ?? items[0]) === it;
+        const isActive = current === it;
         return (
           <button
             key={it}
+            type="button"
+            role="tab"
+            aria-selected={isActive}
+            onClick={() => onChange?.(it)}
             className={[
-              "relative px-3 py-2.5 text-[13px] font-medium transition-colors",
+              "relative whitespace-nowrap px-3 py-2.5 text-[13px] font-medium transition-colors",
               isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
             ].join(" ")}
           >
