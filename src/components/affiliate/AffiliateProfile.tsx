@@ -42,8 +42,8 @@ export function AffiliateProfileDrawer({
     queryFn: async () => {
       const { data, error } = await supabase
         .from("activity_log")
-        .select("id, action, entity_type, entity_id, metadata, created_at")
-        .eq("entity_id", id!)
+        .select("id, action, entity, entity_id, metadata, created_at")
+        .or(`entity_id.eq.${id},affiliate_id.eq.${id}`)
         .order("created_at", { ascending: false })
         .limit(25);
       if (error) throw error;
@@ -71,7 +71,7 @@ export function AffiliateProfileDrawer({
   const events: TimelineEvent[] = (activity.data ?? []).map((a) => ({
     id: a.id as string,
     title: String(a.action ?? "event").replace(/[._]/g, " "),
-    description: a.entity_type ? `on ${a.entity_type}` : undefined,
+    description: a.entity ? `on ${a.entity}` : undefined,
     at: a.created_at as string,
     icon: Activity,
     tone: /approve|activate|verified|paid/i.test(String(a.action)) ? "success"
