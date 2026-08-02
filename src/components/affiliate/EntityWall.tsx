@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, Fragment, useContext, useMemo, useState, type ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import { X } from "lucide-react";
 import { PageHeader } from "./PageHeader";
@@ -227,7 +227,9 @@ export function EntityWall<T extends Record<string, unknown>>(p: EntityWallProps
                   ? { label: p.primaryActionLabel, onClick: p.onPrimaryAction }
                   : undefined
             }
-            rows={rows.length ? rows.map(p.renderRow) : undefined}
+            rows={rows.length ? rows.map((r, i) => (
+              <Fragment key={String((r as { id?: unknown }).id ?? i)}>{p.renderRow(r)}</Fragment>
+            )) : undefined}
             footer={
               <TablePagination
                 page={page}
