@@ -8,7 +8,7 @@ export type Column = {
   label: string;
   align?: "left" | "right" | "center";
   className?: string;
-  /** Column is sortable; sorts on `sortKey` (defaults to `key`). */
+  /** Enable server-side sorting on this column (key must be a real DB column). */
   sortable?: boolean;
   sortKey?: string;
   /** Hide below the lg breakpoint to keep mobile tables readable. */
@@ -74,7 +74,7 @@ export function DataTableShell({
               {columns.map((c) => {
                 const key = c.sortKey ?? c.key;
                 const active = sort?.column === key;
-                const sortable = c.sortable !== false && !!onSortChange;
+                const sortable = c.sortable === true && !!onSortChange;
                 const align =
                   c.align === "right" ? "text-right" : c.align === "center" ? "text-center" : "text-left";
                 return (
