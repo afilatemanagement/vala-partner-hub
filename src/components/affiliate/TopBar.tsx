@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { AFFILIATE_NAV } from "@/lib/affiliate-nav";
-import { Bell, Command, HelpCircle, LogOut, Plus, Search, Settings, User } from "lucide-react";
+import { Bell, Command, HelpCircle, LogOut, Plus, Search, Settings, User, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,7 +43,7 @@ export function TopBar() {
           <span className="text-foreground">Affiliate</span>
         </div>
 
-        <div className="ml-auto flex w-full max-w-md items-center gap-2">
+        <div className="ml-auto hidden w-full max-w-md items-center gap-2 md:flex">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -57,9 +57,19 @@ export function TopBar() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search affiliates, campaigns, orders…"
-              className="h-9 pl-8 pr-16 bg-muted/60 border-border"
+              className="h-9 pl-8 pr-16 bg-muted/60 border-border transition-shadow focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Universal search"
             />
+            {q && (
+              <button
+                type="button"
+                onClick={() => setQ("")}
+                aria-label="Clear search"
+                className="absolute right-14 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground"
+              >
+                <X className="size-3.5" />
+              </button>
+            )}
             <button
               type="button"
               onClick={() => palette.setOpen(true)}
@@ -76,7 +86,16 @@ export function TopBar() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-9"
+            className="size-9 md:hidden"
+            aria-label="Search"
+            onClick={() => palette.setOpen(true)}
+          >
+            <Search className="size-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden size-9 sm:inline-flex"
             aria-label="Help & keyboard shortcuts"
             title="Help (⌘K)"
             onClick={() => palette.setOpen(true)}
@@ -87,7 +106,8 @@ export function TopBar() {
             trigger={
               <Button variant="ghost" size="icon" className="size-9 relative" aria-label="Notifications">
                 <Bell className="size-4" />
-                <span className="absolute right-2 top-2 size-1.5 rounded-full bg-accent" />
+                <span className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface" />
+                <span className="sr-only">unread notifications</span>
               </Button>
             }
           />
