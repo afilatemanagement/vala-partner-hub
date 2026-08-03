@@ -12,6 +12,8 @@ import { SectionCard, StatusBadge } from "@/components/affiliate/StatusBadge";
 import { ChartEmpty, EmptyState } from "@/components/affiliate/EmptyState";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { formatMoney } from "@/lib/affiliate-format";
+import { TimeAgo } from "@/components/affiliate/Money";
 
 export const Route = createFileRoute("/affiliate-manager/")({
   head: () => ({ meta: [{ title: "Dashboard — Affiliate Manager" }] }),
@@ -73,12 +75,8 @@ async function fetchActivity(): Promise<ActivityRow[]> {
   return (data ?? []) as ActivityRow[];
 }
 
-const money = (cents: number, currency = "USD") =>
-  cents == null
-    ? "—"
-    : new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(
-        (cents ?? 0) / 100,
-      );
+const money = (cents: number | null | undefined, currency = "USD") =>
+  cents == null ? "—" : formatMoney(cents, currency);
 const num = (n: number | null | undefined) =>
   n == null ? "—" : new Intl.NumberFormat("en-US").format(n);
 
@@ -372,7 +370,7 @@ function ActivityList({
               {r.entity && <span className="text-muted-foreground"> · {r.entity}</span>}
             </div>
             <div className="text-[11px] text-muted-foreground">
-              {new Date(r.created_at).toLocaleString()}
+              <TimeAgo value={r.created_at} />
             </div>
           </div>
         </li>

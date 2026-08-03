@@ -57,27 +57,33 @@ export function TopBar() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search affiliates, campaigns, orders…"
-              className="h-9 pl-8 pr-16 bg-muted/60 border-border transition-shadow focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-9 pl-8 pr-24 bg-muted/60 border-border transition-shadow focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Universal search"
             />
-            {q && (
+            <div className="absolute right-1.5 top-1/2 flex -translate-y-1/2 items-center gap-1">
+              {q && (
+                <button
+                  type="button"
+                  onClick={() => setQ("")}
+                  aria-label="Clear search"
+                  className="rounded p-0.5 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="size-3.5" />
+                </button>
+              )}
               <button
                 type="button"
-                onClick={() => setQ("")}
-                aria-label="Clear search"
-                className="absolute right-14 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground"
+                onClick={() => palette.setOpen(true)}
+                className="flex items-center gap-1 rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] text-muted-foreground hover:text-foreground"
+                aria-label="Open command palette"
+                title="Command palette (⌘K)"
               >
-                <X className="size-3.5" />
+                <Command className="size-3" /> K
               </button>
-            )}
-            <button
-              type="button"
-              onClick={() => palette.setOpen(true)}
-              className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1 rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] text-muted-foreground hover:text-foreground sm:flex"
-              aria-label="Open command palette"
-            >
-              <Command className="size-3" /> K
-            </button>
+              <Button type="submit" size="sm" variant="secondary" className="h-6 px-2 text-[11px]">
+                Search
+              </Button>
+            </div>
           </form>
         </div>
 
@@ -104,10 +110,20 @@ export function TopBar() {
           </Button>
           <NotificationCenter
             trigger={
-              <Button variant="ghost" size="icon" className="size-9 relative" aria-label="Notifications">
-                <Bell className="size-4" />
-                <span className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface" />
-                <span className="sr-only">unread notifications</span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-9 relative"
+                aria-label="Notifications — unread alerts available"
+              >
+                <Bell className="size-4" aria-hidden="true" />
+                <span
+                  aria-hidden="true"
+                  className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface"
+                />
+                <span role="status" aria-live="polite" className="sr-only">
+                  You have unread notifications
+                </span>
               </Button>
             }
           />

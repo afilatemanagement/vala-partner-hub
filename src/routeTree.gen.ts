@@ -42,6 +42,7 @@ import { Route as AffiliateManagerApplicationsRouteImport } from './routes/affil
 import { Route as AffiliateManagerAnalyticsRouteImport } from './routes/affiliate-manager.analytics'
 import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affiliate-manager.affiliates'
 import { Route as AffiliateManagerAffiliateLinksRouteImport } from './routes/affiliate-manager.affiliate-links'
+import { Route as AffiliateManagerAffiliatesIdRouteImport } from './routes/affiliate-manager.affiliates.$id'
 
 const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
   id: '/affiliate-manager',
@@ -227,12 +228,18 @@ const AffiliateManagerAffiliateLinksRoute =
     path: '/affiliate-links',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
+const AffiliateManagerAffiliatesIdRoute =
+  AffiliateManagerAffiliatesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AffiliateManagerAffiliatesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
-  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
@@ -262,11 +269,12 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
+  '/affiliate-manager/affiliates/$id': typeof AffiliateManagerAffiliatesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
-  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
@@ -296,13 +304,14 @@ export interface FileRoutesByTo {
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager': typeof AffiliateManagerIndexRoute
+  '/affiliate-manager/affiliates/$id': typeof AffiliateManagerAffiliatesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
-  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRoute
+  '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
@@ -332,6 +341,7 @@ export interface FileRoutesById {
   '/affiliate-manager/support': typeof AffiliateManagerSupportRoute
   '/affiliate-manager/wallet': typeof AffiliateManagerWalletRoute
   '/affiliate-manager/': typeof AffiliateManagerIndexRoute
+  '/affiliate-manager/affiliates/$id': typeof AffiliateManagerAffiliatesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
     | '/affiliate-manager/'
+    | '/affiliate-manager/affiliates/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -403,6 +414,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
     | '/affiliate-manager'
+    | '/affiliate-manager/affiliates/$id'
   id:
     | '__root__'
     | '/'
@@ -438,6 +450,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/support'
     | '/affiliate-manager/wallet'
     | '/affiliate-manager/'
+    | '/affiliate-manager/affiliates/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -678,12 +691,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerAffiliateLinksRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/affiliates/$id': {
+      id: '/affiliate-manager/affiliates/$id'
+      path: '/$id'
+      fullPath: '/affiliate-manager/affiliates/$id'
+      preLoaderRoute: typeof AffiliateManagerAffiliatesIdRouteImport
+      parentRoute: typeof AffiliateManagerAffiliatesRoute
+    }
   }
 }
 
+interface AffiliateManagerAffiliatesRouteChildren {
+  AffiliateManagerAffiliatesIdRoute: typeof AffiliateManagerAffiliatesIdRoute
+}
+
+const AffiliateManagerAffiliatesRouteChildren: AffiliateManagerAffiliatesRouteChildren =
+  {
+    AffiliateManagerAffiliatesIdRoute: AffiliateManagerAffiliatesIdRoute,
+  }
+
+const AffiliateManagerAffiliatesRouteWithChildren =
+  AffiliateManagerAffiliatesRoute._addFileChildren(
+    AffiliateManagerAffiliatesRouteChildren,
+  )
+
 interface AffiliateManagerRouteChildren {
   AffiliateManagerAffiliateLinksRoute: typeof AffiliateManagerAffiliateLinksRoute
-  AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRoute
+  AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRouteWithChildren
   AffiliateManagerAnalyticsRoute: typeof AffiliateManagerAnalyticsRoute
   AffiliateManagerApplicationsRoute: typeof AffiliateManagerApplicationsRoute
   AffiliateManagerBulkActionsRoute: typeof AffiliateManagerBulkActionsRoute
@@ -717,7 +751,7 @@ interface AffiliateManagerRouteChildren {
 
 const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerAffiliateLinksRoute: AffiliateManagerAffiliateLinksRoute,
-  AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRoute,
+  AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRouteWithChildren,
   AffiliateManagerAnalyticsRoute: AffiliateManagerAnalyticsRoute,
   AffiliateManagerApplicationsRoute: AffiliateManagerApplicationsRoute,
   AffiliateManagerBulkActionsRoute: AffiliateManagerBulkActionsRoute,
