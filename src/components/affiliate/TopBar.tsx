@@ -110,10 +110,20 @@ export function TopBar() {
           </Button>
           <NotificationCenter
             trigger={
-              <Button variant="ghost" size="icon" className="size-9 relative" aria-label="Notifications">
-                <Bell className="size-4" />
-                <span className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface" />
-                <span className="sr-only">unread notifications</span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-9 relative"
+                aria-label="Notifications — unread alerts available"
+              >
+                <Bell className="size-4" aria-hidden="true" />
+                <span
+                  aria-hidden="true"
+                  className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface"
+                />
+                <span role="status" aria-live="polite" className="sr-only">
+                  You have unread notifications
+                </span>
               </Button>
             }
           />
