@@ -12,6 +12,8 @@ import { SectionCard, StatusBadge } from "@/components/affiliate/StatusBadge";
 import { ChartEmpty, EmptyState } from "@/components/affiliate/EmptyState";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { formatMoney } from "@/lib/affiliate-format";
+import { TimeAgo } from "@/components/affiliate/Money";
 
 export const Route = createFileRoute("/affiliate-manager/")({
   head: () => ({ meta: [{ title: "Dashboard — Affiliate Manager" }] }),
