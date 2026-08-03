@@ -370,7 +370,7 @@ function ActivityList({
               {r.entity && <span className="text-muted-foreground"> · {r.entity}</span>}
             </div>
             <div className="text-[11px] text-muted-foreground">
-              {new Date(r.created_at).toLocaleString()}
+              <TimeAgo value={r.created_at} />
             </div>
           </div>
         </li>
