@@ -73,12 +73,8 @@ async function fetchActivity(): Promise<ActivityRow[]> {
   return (data ?? []) as ActivityRow[];
 }
 
-const money = (cents: number, currency = "USD") =>
-  cents == null
-    ? "—"
-    : new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(
-        (cents ?? 0) / 100,
-      );
+const money = (cents: number | null | undefined, currency = "USD") =>
+  cents == null ? "—" : formatMoney(cents, currency);
 const num = (n: number | null | undefined) =>
   n == null ? "—" : new Intl.NumberFormat("en-US").format(n);
 
