@@ -96,7 +96,18 @@ export function TopBar() {
             aria-label="Search"
             onClick={() => palette.setOpen(true)}
           >
-            <Search className="size-4" />
+            <Search className="size-4" aria-hidden="true" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-9 gap-1.5 px-2"
+            aria-label="Open command palette (Command or Control + K)"
+            title="Command palette (⌘K)"
+            onClick={() => palette.setOpen(true)}
+          >
+            <Command className="size-4" aria-hidden="true" />
+            <span className="hidden text-[11px] text-muted-foreground sm:inline">⌘K</span>
           </Button>
           <Button
             variant="ghost"
@@ -106,7 +117,7 @@ export function TopBar() {
             title="Help (⌘K)"
             onClick={() => palette.setOpen(true)}
           >
-            <HelpCircle className="size-4" />
+            <HelpCircle className="size-4" aria-hidden="true" />
           </Button>
           <NotificationCenter
             trigger={
@@ -114,14 +125,20 @@ export function TopBar() {
                 variant="ghost"
                 size="icon"
                 className="size-9 relative"
-                aria-label="Notifications — unread alerts available"
+                aria-label="Notifications — 1 or more unread alerts"
               >
                 <Bell className="size-4" aria-hidden="true" />
                 <span
                   aria-hidden="true"
                   className="absolute right-2 top-2 size-1.5 rounded-full bg-accent ring-2 ring-surface"
                 />
-                <span role="status" aria-live="polite" className="sr-only">
+                <span
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  aria-label="Notification status"
+                  className="sr-only"
+                >
                   You have unread notifications
                 </span>
               </Button>
