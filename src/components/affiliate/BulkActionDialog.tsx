@@ -189,11 +189,19 @@ export function BulkActionDialog({
         )}
 
         {phase === "running" && (
-          <div className="px-5 py-5 space-y-4">
+          <div className="px-5 py-5 space-y-4" role="status" aria-live="polite" aria-atomic="false">
             <div className="flex items-center gap-2 text-sm">
-              <Loader2 className="size-4 animate-spin text-primary" /> Processing batch…
+              <Loader2 className="size-4 animate-spin text-primary" aria-hidden="true" /> Processing batch…
             </div>
-            <Progress value={progress} className="h-2" />
+            <Progress
+              value={progress}
+              className="h-2"
+              aria-label="Bulk action progress"
+              aria-valuenow={Math.round(progress)}
+            />
+            <span className="sr-only">
+              {`Progress ${Math.round(progress)} percent. ${stats.processed} processed, ${stats.succeeded} succeeded, ${stats.failed} failed.`}
+            </span>
             <div className="grid grid-cols-4 gap-2 text-[12px]">
               <Stat label="Processed" value={stats.processed.toLocaleString()} />
               <Stat label="Succeeded" value={stats.succeeded.toLocaleString()} tone="success" />
