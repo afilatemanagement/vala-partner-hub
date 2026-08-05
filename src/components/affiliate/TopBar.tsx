@@ -151,45 +151,61 @@ export function TopBar() {
               </Button>
             }
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                aria-label="Operator menu"
-                className="ml-2 grid size-8 place-items-center rounded-full bg-primary-soft text-primary font-semibold text-xs hover:ring-2 hover:ring-primary/30 transition"
-              >
-                SV
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>Boss Panel Operator</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/affiliate-manager/settings">
-                  <User className="size-4 mr-2" /> Profile
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/affiliate-manager/settings">
-                  <Settings className="size-4 mr-2" /> Settings
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => palette.setOpen(true)}>
-                <Command className="size-4 mr-2" /> Command palette
-                <span className="ml-auto text-[10px] text-muted-foreground">⌘K</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onSelect={async () => {
-                  await supabase.auth.signOut();
-                  toast.success("Signed out");
-                  navigate({ to: "/" });
-                }}
-              >
-                <LogOut className="size-4 mr-2" /> Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {sessionLoading ? (
+            <div
+              className="ml-2 size-8 animate-pulse rounded-full bg-muted"
+              aria-hidden="true"
+            />
+          ) : !user ? (
+            <Button asChild size="sm" variant="secondary" className="ml-2 h-9">
+              <Link to="/auth">Sign in</Link>
+            </Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label={`Operator menu — signed in as ${user.email ?? "operator"}`}
+                  className="ml-2 grid size-8 place-items-center rounded-full bg-primary-soft text-primary font-semibold text-xs transition hover:ring-2 hover:ring-primary/30"
+                >
+                  {userInitials(user.email)}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="truncate">
+                  {user.email ?? "Boss Panel Operator"}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/affiliate-manager/settings">
+                    <User className="size-4 mr-2" /> Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/affiliate-manager/settings">
+                    <Settings className="size-4 mr-2" /> Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => palette.setOpen(true)}>
+                  <Command className="size-4 mr-2" /> Command palette
+                  <span className="ml-auto text-[10px] text-muted-foreground">⌘K</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={async () => {
+                    await queryClient.cancelQueries();
+                    queryClient.clear();
+                    await supabase.auth.signOut();
+                    toast.success("Signed out");
+                    navigate({ to: "/auth", replace: true });
+                  }}
+                >
+                  <LogOut className="size-4 mr-2" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+
         </div>
       </div>
 
