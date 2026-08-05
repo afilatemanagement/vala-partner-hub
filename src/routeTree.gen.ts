@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-manager.index'
@@ -44,6 +45,11 @@ import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affilia
 import { Route as AffiliateManagerAffiliateLinksRouteImport } from './routes/affiliate-manager.affiliate-links'
 import { Route as AffiliateManagerAffiliatesIdRouteImport } from './routes/affiliate-manager.affiliates.$id'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
   id: '/affiliate-manager',
   path: '/affiliate-manager',
@@ -238,6 +244,7 @@ const AffiliateManagerAffiliatesIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/auth': typeof AuthRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/auth': typeof AuthRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/affiliate-manager'
+    | '/auth'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -383,6 +393,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/affiliate-manager'
+    | '/auth'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -456,10 +468,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AffiliateManagerRoute: typeof AffiliateManagerRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/affiliate-manager': {
       id: '/affiliate-manager'
       path: '/affiliate-manager'
@@ -789,6 +809,7 @@ const AffiliateManagerRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AffiliateManagerRoute: AffiliateManagerRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
