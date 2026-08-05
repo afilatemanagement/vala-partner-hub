@@ -32,15 +32,12 @@ export function PermissionGate({
           icon={Lock}
           title="Sign in required"
           description="Sign in with a boss-panel operator account to view this workspace."
-          action={
-            <Button asChild>
-              <Link to="/auth">Sign in</Link>
-            </Button>
-          }
+          primaryAction={{ label: "Sign in", onClick: () => navigate({ to: "/auth" }) }}
         />
       </div>
     );
   }
+
 
   if (!can(data, permission)) {
     return (
