@@ -17,12 +17,16 @@ import { toast } from "sonner";
 import { CommandPalette, useCommandPalette } from "@/components/affiliate/CommandPalette";
 import { NotificationCenter } from "@/components/affiliate/NotificationCenter";
 import { RightActionPanel } from "@/components/affiliate/RightActionPanel";
+import { useSession, userInitials } from "@/lib/use-session";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function TopBar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const palette = useCommandPalette();
   const navigate = useNavigate();
   const [q, setQ] = useState("");
+  const { user, loading: sessionLoading } = useSession();
+  const queryClient = useQueryClient();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface">
