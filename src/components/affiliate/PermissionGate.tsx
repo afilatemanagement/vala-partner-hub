@@ -1,4 +1,5 @@
 import { ShieldAlert, Lock } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { usePermissions, can, type Permission } from "@/lib/affiliate-permissions";
 import { EmptyState } from "@/components/affiliate/EmptyState";
@@ -18,6 +19,7 @@ export function PermissionGate({
   fallbackTitle?: string;
 }) {
   const { data, isLoading } = usePermissions();
+  const navigate = useNavigate();
   if (isLoading) {
     return (
       <div className="rounded-lg border border-border bg-surface p-8 text-center text-sm text-muted-foreground">
