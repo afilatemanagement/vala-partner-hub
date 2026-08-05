@@ -32,10 +32,16 @@ export function PermissionGate({
           icon={Lock}
           title="Sign in required"
           description="Sign in with a boss-panel operator account to view this workspace."
+          action={
+            <Button asChild>
+              <Link to="/auth">Sign in</Link>
+            </Button>
+          }
         />
       </div>
     );
   }
+
   if (!can(data, permission)) {
     return (
       <div className="rounded-lg border border-destructive/30 bg-destructive/5">
