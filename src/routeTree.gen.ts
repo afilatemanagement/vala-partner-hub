@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AffiliateManagerRouteImport } from './routes/affiliate-manager'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AffiliateManagerIndexRouteImport } from './routes/affiliate-manager.index'
@@ -44,6 +46,16 @@ import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affilia
 import { Route as AffiliateManagerAffiliateLinksRouteImport } from './routes/affiliate-manager.affiliate-links'
 import { Route as AffiliateManagerAffiliatesIdRouteImport } from './routes/affiliate-manager.affiliates.$id'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AffiliateManagerRoute = AffiliateManagerRouteImport.update({
   id: '/affiliate-manager',
   path: '/affiliate-manager',
@@ -238,6 +250,8 @@ const AffiliateManagerAffiliatesIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -273,6 +287,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -310,6 +326,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/affiliate-manager': typeof AffiliateManagerRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/affiliate-manager/affiliate-links': typeof AffiliateManagerAffiliateLinksRoute
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
@@ -348,6 +366,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/affiliate-manager'
+    | '/auth'
+    | '/reset-password'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -383,6 +403,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/reset-password'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -419,6 +441,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/affiliate-manager'
+    | '/auth'
+    | '/reset-password'
     | '/affiliate-manager/affiliate-links'
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
@@ -456,10 +480,26 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AffiliateManagerRoute: typeof AffiliateManagerRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/affiliate-manager': {
       id: '/affiliate-manager'
       path: '/affiliate-manager'
@@ -789,17 +829,9 @@ const AffiliateManagerRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AffiliateManagerRoute: AffiliateManagerRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
