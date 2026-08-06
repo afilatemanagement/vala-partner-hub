@@ -40,6 +40,7 @@ import { Route as AffiliateManagerCommunicationRouteImport } from './routes/affi
 import { Route as AffiliateManagerCommissionsRouteImport } from './routes/affiliate-manager.commissions'
 import { Route as AffiliateManagerCampaignsRouteImport } from './routes/affiliate-manager.campaigns'
 import { Route as AffiliateManagerBulkActionsRouteImport } from './routes/affiliate-manager.bulk-actions'
+import { Route as AffiliateManagerAuditLogRouteImport } from './routes/affiliate-manager.audit-log'
 import { Route as AffiliateManagerApplicationsRouteImport } from './routes/affiliate-manager.applications'
 import { Route as AffiliateManagerAnalyticsRouteImport } from './routes/affiliate-manager.analytics'
 import { Route as AffiliateManagerAffiliatesRouteImport } from './routes/affiliate-manager.affiliates'
@@ -216,6 +217,12 @@ const AffiliateManagerBulkActionsRoute =
     path: '/bulk-actions',
     getParentRoute: () => AffiliateManagerRoute,
   } as any)
+const AffiliateManagerAuditLogRoute =
+  AffiliateManagerAuditLogRouteImport.update({
+    id: '/audit-log',
+    path: '/audit-log',
+    getParentRoute: () => AffiliateManagerRoute,
+  } as any)
 const AffiliateManagerApplicationsRoute =
   AffiliateManagerApplicationsRouteImport.update({
     id: '/applications',
@@ -256,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/audit-log': typeof AffiliateManagerAuditLogRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
@@ -293,6 +301,7 @@ export interface FileRoutesByTo {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/audit-log': typeof AffiliateManagerAuditLogRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
@@ -332,6 +341,7 @@ export interface FileRoutesById {
   '/affiliate-manager/affiliates': typeof AffiliateManagerAffiliatesRouteWithChildren
   '/affiliate-manager/analytics': typeof AffiliateManagerAnalyticsRoute
   '/affiliate-manager/applications': typeof AffiliateManagerApplicationsRoute
+  '/affiliate-manager/audit-log': typeof AffiliateManagerAuditLogRoute
   '/affiliate-manager/bulk-actions': typeof AffiliateManagerBulkActionsRoute
   '/affiliate-manager/campaigns': typeof AffiliateManagerCampaignsRoute
   '/affiliate-manager/commissions': typeof AffiliateManagerCommissionsRoute
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/audit-log'
     | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
@@ -409,6 +420,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/audit-log'
     | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
@@ -447,6 +459,7 @@ export interface FileRouteTypes {
     | '/affiliate-manager/affiliates'
     | '/affiliate-manager/analytics'
     | '/affiliate-manager/applications'
+    | '/affiliate-manager/audit-log'
     | '/affiliate-manager/bulk-actions'
     | '/affiliate-manager/campaigns'
     | '/affiliate-manager/commissions'
@@ -703,6 +716,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AffiliateManagerBulkActionsRouteImport
       parentRoute: typeof AffiliateManagerRoute
     }
+    '/affiliate-manager/audit-log': {
+      id: '/affiliate-manager/audit-log'
+      path: '/audit-log'
+      fullPath: '/affiliate-manager/audit-log'
+      preLoaderRoute: typeof AffiliateManagerAuditLogRouteImport
+      parentRoute: typeof AffiliateManagerRoute
+    }
     '/affiliate-manager/applications': {
       id: '/affiliate-manager/applications'
       path: '/applications'
@@ -760,6 +780,7 @@ interface AffiliateManagerRouteChildren {
   AffiliateManagerAffiliatesRoute: typeof AffiliateManagerAffiliatesRouteWithChildren
   AffiliateManagerAnalyticsRoute: typeof AffiliateManagerAnalyticsRoute
   AffiliateManagerApplicationsRoute: typeof AffiliateManagerApplicationsRoute
+  AffiliateManagerAuditLogRoute: typeof AffiliateManagerAuditLogRoute
   AffiliateManagerBulkActionsRoute: typeof AffiliateManagerBulkActionsRoute
   AffiliateManagerCampaignsRoute: typeof AffiliateManagerCampaignsRoute
   AffiliateManagerCommissionsRoute: typeof AffiliateManagerCommissionsRoute
@@ -794,6 +815,7 @@ const AffiliateManagerRouteChildren: AffiliateManagerRouteChildren = {
   AffiliateManagerAffiliatesRoute: AffiliateManagerAffiliatesRouteWithChildren,
   AffiliateManagerAnalyticsRoute: AffiliateManagerAnalyticsRoute,
   AffiliateManagerApplicationsRoute: AffiliateManagerApplicationsRoute,
+  AffiliateManagerAuditLogRoute: AffiliateManagerAuditLogRoute,
   AffiliateManagerBulkActionsRoute: AffiliateManagerBulkActionsRoute,
   AffiliateManagerCampaignsRoute: AffiliateManagerCampaignsRoute,
   AffiliateManagerCommissionsRoute: AffiliateManagerCommissionsRoute,
@@ -835,13 +857,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
