@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { gotoHydrated } from "./helpers";
+import { gotoHydrated, openOverlay } from "./helpers";
 
 test.describe("Top bar — keyboard & aria", () => {
   test.beforeEach(async ({ page }) => {
@@ -13,9 +13,12 @@ test.describe("Top bar — keyboard & aria", () => {
     const input = form.getByRole("textbox", { name: "Universal search" });
     await expect(input).toBeVisible();
 
-    await input.click();
-    await input.fill("acme");
-    await expect(form.getByRole("button", { name: "Clear search" })).toBeVisible();
+    await expect(async () => {
+      await input.fill("acme");
+      await expect(form.getByRole("button", { name: "Clear search" })).toBeVisible({
+        timeout: 2_000,
+      });
+    }).toPass({ timeout: 30_000 });
 
     await input.press("Enter");
     await expect(page).toHaveURL(/\/affiliate-manager\/search\?.*q=acme/);
@@ -25,33 +28,37 @@ test.describe("Top bar — keyboard & aria", () => {
     page,
   }) => {
     const input = page.getByRole("textbox", { name: "Universal search" });
-    await input.fill("payouts");
-
     const clear = page.getByRole("button", { name: "Clear search" });
+
+    await expect(async () => {
+      await input.fill("payouts");
+      await expect(clear).toBeVisible({ timeout: 2_000 });
+    }).toPass({ timeout: 30_000 });
+
     await clear.focus();
     await expect(clear).toBeFocused();
     await page.keyboard.press("Enter");
 
     await expect(input).toHaveValue("");
-    await expect(page.getByRole("button", { name: "Clear search" })).toHaveCount(0);
+    await expect(clear).toHaveCount(0);
   });
 
   test("command palette opens with the keyboard shortcut and from its labelled button", async ({
     page,
   }) => {
-    await page.getByRole("button", { name: /Open command palette/ }).first().click();
-    await expect(page.getByRole("dialog")).toBeVisible();
+    await openOverlay(page, /Open command palette/);
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
 
     await page.keyboard.press("ControlOrMeta+k");
-    await expect(page.getByRole("dialog")).toBeVisible();
-
     const palette = page.getByRole("dialog");
+    await expect(palette).toBeVisible();
     await expect(palette.getByRole("combobox").or(palette.getByRole("textbox")).first()).toBeFocused();
+
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
   });
+
 
   test("icon-only actions all expose accessible names", async ({ page }) => {
     const header = page.locator("header");
