@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScrollText, ShieldCheck, UserCog } from "lucide-react";
 import { EntityWall, Row, Cell } from "@/components/affiliate/EntityWall";
-import { TimeAgo } from "@/lib/affiliate-format";
+import { TimeAgo } from "@/components/affiliate/Money";
 
 type AuditRow = {
   id: string;
