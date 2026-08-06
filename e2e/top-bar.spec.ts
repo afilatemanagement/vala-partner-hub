@@ -1,8 +1,9 @@
 import { test, expect } from "@playwright/test";
+import { gotoHydrated } from "./helpers";
 
 test.describe("Top bar — keyboard & aria", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/affiliate-manager");
+    await gotoHydrated(page, "/affiliate-manager");
   });
 
   test("universal search is a labelled search landmark that submits with Enter", async ({

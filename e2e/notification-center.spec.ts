@@ -1,9 +1,10 @@
 import { test, expect, type Page } from "@playwright/test";
+import { gotoHydrated } from "./helpers";
 
 const TABS = ["All", "Mentions", "Approvals", "Payouts", "System"] as const;
 
 async function openNotifications(page: Page) {
-  await page.goto("/affiliate-manager");
+  await gotoHydrated(page, "/affiliate-manager");
   await page.getByRole("button", { name: /^Notifications/ }).click();
   const panel = page.getByRole("dialog");
   await expect(panel.getByRole("heading", { name: "Notifications" })).toBeVisible();
@@ -12,7 +13,7 @@ async function openNotifications(page: Page) {
 
 test.describe("Notification center — keyboard & aria", () => {
   test("bell trigger exposes an accessible name and a polite status region", async ({ page }) => {
-    await page.goto("/affiliate-manager");
+    await gotoHydrated(page, "/affiliate-manager");
     const bell = page.getByRole("button", { name: /^Notifications/ });
     await expect(bell).toBeVisible();
 
