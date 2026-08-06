@@ -30,6 +30,7 @@ export const AFFILIATE_NAV: WallNav[] = [
   { to: "/affiliate-manager/documents", label: "Documents", group: "ops" },
   { to: "/affiliate-manager/analytics", label: "Analytics", group: "system" },
   { to: "/affiliate-manager/reports", label: "Reports", group: "system" },
+  { to: "/affiliate-manager/audit-log", label: "Audit Log", group: "system" },
   { to: "/affiliate-manager/bulk-actions", label: "Bulk Actions", group: "system" },
   { to: "/affiliate-manager/import", label: "Import", group: "system" },
   { to: "/affiliate-manager/export", label: "Export", group: "system" },

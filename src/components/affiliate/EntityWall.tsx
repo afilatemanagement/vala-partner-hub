@@ -98,6 +98,7 @@ export function EntityWall<T extends Record<string, unknown>>(p: EntityWallProps
 
   const totalPages = list.data?.totalPages ?? 1;
   const count = list.data?.count ?? 0;
+  const countIsEstimate = !!list.data?.countIsEstimate;
   const rows = list.data?.rows ?? [];
 
   const reset = () => { setPage(1); setSelected(new Set()); };
@@ -235,6 +236,7 @@ export function EntityWall<T extends Record<string, unknown>>(p: EntityWallProps
                 page={page}
                 pageSize={pageSize}
                 count={count}
+                countIsEstimate={countIsEstimate}
                 totalPages={totalPages}
                 isLoading={list.isLoading}
                 onPageChange={setPage}
