@@ -1,15 +1,15 @@
 import { test, expect, type Page } from "@playwright/test";
-import { gotoHydrated } from "./helpers";
+import { gotoHydrated, openOverlay } from "./helpers";
 
 const TABS = ["All", "Mentions", "Approvals", "Payouts", "System"] as const;
 
 async function openNotifications(page: Page) {
   await gotoHydrated(page, "/affiliate-manager");
-  await page.getByRole("button", { name: /^Notifications/ }).click();
-  const panel = page.getByRole("dialog");
+  const panel = await openOverlay(page, /^Notifications/);
   await expect(panel.getByRole("heading", { name: "Notifications" })).toBeVisible();
   return panel;
 }
+
 
 test.describe("Notification center — keyboard & aria", () => {
   test("bell trigger exposes an accessible name and a polite status region", async ({ page }) => {
