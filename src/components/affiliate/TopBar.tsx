@@ -213,7 +213,7 @@ export function TopBar() {
         </div>
       </div>
 
-      <nav className="no-scrollbar flex items-stretch gap-0 overflow-x-auto border-t border-border px-2 lg:px-4">
+      <nav aria-label="Affiliate manager workspaces" className="no-scrollbar flex items-stretch gap-0 overflow-x-auto border-t border-border px-2 lg:px-4">
         {AFFILIATE_NAV.map((item) => {
           const active =
             item.to === "/affiliate-manager"
@@ -223,8 +223,9 @@ export function TopBar() {
             <Link
               key={item.to}
               to={item.to}
+              aria-current={active ? "page" : undefined}
               className={[
-                "relative whitespace-nowrap px-3 py-2.5 text-[13px] font-medium transition-colors",
+                "relative whitespace-nowrap rounded-sm px-3 py-2.5 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               ].join(" ")}
             >

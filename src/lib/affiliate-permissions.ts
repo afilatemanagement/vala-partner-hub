@@ -109,6 +109,7 @@ export const ROUTE_PERMISSIONS: Record<string, Permission | null> = {
   "/affiliate-manager/documents": "affiliates.read",
   "/affiliate-manager/analytics": "affiliates.read",
   "/affiliate-manager/reports": "affiliates.read",
+  "/affiliate-manager/audit-log": "settings.write",
   "/affiliate-manager/bulk-actions": "bulk.execute",
   "/affiliate-manager/import": "import.execute",
   "/affiliate-manager/export": "export.execute",

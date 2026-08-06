@@ -21,7 +21,7 @@ function AffiliateManagerLayout() {
   useAffiliateRealtimeSync(!!perms?.is_boss);
   const required = permissionForPath(pathname);
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <TopBar />
       <main className="mx-auto w-full max-w-[1600px]">
         {required ? (
