@@ -13,6 +13,7 @@ export function TablePagination({
   page,
   pageSize,
   count,
+  countIsEstimate,
   totalPages,
   isLoading,
   onPageChange,
@@ -21,6 +22,7 @@ export function TablePagination({
   page: number;
   pageSize: number;
   count: number;
+  countIsEstimate?: boolean;
   totalPages: number;
   isLoading?: boolean;
   onPageChange: (p: number) => void;
@@ -39,7 +41,7 @@ export function TablePagination({
 
   return (
     <div className="flex w-full flex-wrap items-center justify-between gap-3">
-      <span className="tabular-nums text-muted-foreground">
+      <span className="tabular-nums text-muted-foreground" role="status" aria-live="polite">
         {isLoading ? (
           <span className="inline-block h-3 w-40 animate-pulse rounded bg-muted align-middle" />
         ) : count === 0 ? (
@@ -48,7 +50,15 @@ export function TablePagination({
           <>
             <span className="font-medium text-foreground">{from.toLocaleString()}–{to.toLocaleString()}</span>
             {" of "}
-            <span className="font-medium text-foreground">{count.toLocaleString()}</span>
+            <span className="font-medium text-foreground">
+              {countIsEstimate ? "~" : ""}
+              {count.toLocaleString()}
+            </span>
+            {countIsEstimate && (
+              <span className="ml-1 text-[11px]" title="Approximate total — exact counts are skipped on very large tables for speed">
+                (approx.)
+              </span>
+            )}
           </>
         )}
       </span>
